@@ -58,5 +58,5 @@ setup(
     package_data={
         '': ['README.md', 'LICENSE'],
     },
-    zip_safe=False,
+    zip_safe=False
 )
