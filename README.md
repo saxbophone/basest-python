@@ -17,3 +17,18 @@ Returns tuples containing two integers, representing the ratio of **input base**
 >>> basest.best_ratio_for_base(input_base=256, output_base=94, max_chunk_size=512)
 (355, 382)
 ```
+
+### Finding the best encoding ratio from one base to any base within a given range
+
+For a given **input base**, an iterable of one or more acceptable **output bases** and the maximmum number of symbols to consider using on either side of the encoding ratio (**max chunk size**), return the most efficient base pair and encoding ratio to use (in terms of input base to output base).
+
+Returns tuples containing an integer as the first item (representing the output base that is most efficient), and a tuple as the second, which is the same as the output of the previous function i.e. the encoding ratio to use.
+
+```py
+>>> import basest
+>>>
+>>> basest.best_ratio_for_base_range(input_base=256, output_bases=range(2, 95), max_chunk_size=256)
+(94, (68, 83))
+>>> basest.best_ratio_for_base_range(input_base=256, output_bases=range(2, 333), max_chunk_size=256)
+(333, (243, 232))
+```
