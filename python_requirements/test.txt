@@ -1,0 +1,4 @@
+flake8==2.6.2
+isort==4.2.5
+ddt==1.1.0
+coverage==4.1

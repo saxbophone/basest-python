@@ -18,13 +18,13 @@ def retrieve_deps(filepath):
     understand, parse it using pip's parser and return the requirements it
     contains as a list.
     """
-    return [str(dep.req) for dep in parse_requirements(filepath, session=False)]
+    return [str(dep.req) for dep in parse_requirements(filepath, session=False)]  # noqa
 
 
 setup(
     name='basest',
     version='0.1.0',
-    description='Converts symbols from any number base to any other number base',
+    description='Converts symbols from any number base to any other number base',  # noqa
     long_description=read('README.md'),
     url='https://github.com/saxbophone/basest-python',
     author='Joshua Saxby',
@@ -45,12 +45,12 @@ setup(
         'Topic :: Education',
         'Topic :: Internet',
         'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Interface Engine/Protocol Translator',
+        'Topic :: Scientific/Engineering :: Interface Engine/Protocol Translator',  # noqa
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',
     ],
     keywords='number base encoder decoder conversion encoding decoding',
-    packages=['basest', 'tests',],
+    packages=['basest', 'tests', ],
     install_requires=retrieve_deps('python_requirements/base.txt'),
     extras_require={
         'test': retrieve_deps('python_requirements/test.txt')
