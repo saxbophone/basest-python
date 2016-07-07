@@ -10,7 +10,6 @@ def load_tests(loader, tests, pattern):
     from the command-line, in a way that works with both Python 2 and 3.
     """
     suite = unittest.TestSuite()
-    # for all_test_suite in unittest.defaultTestLoader.discover():
     for all_test_suite in unittest.defaultTestLoader.discover('.'):
         for test_suite in all_test_suite:
             suite.addTests(test_suite)
