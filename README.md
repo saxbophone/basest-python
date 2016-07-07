@@ -1,6 +1,29 @@
 # basest-python
 Converts symbols from any number base to any other number base, in Python
 
+## What?
+In short, **basest** is *based on* (pun *definitely* intended :wink:) the concept of binary-to-text conversion, that is where binary or 8-bit data is converted or serialised into a text-based representation format that can be safely passed through a medium that would otherwise destroy or corrupt the meaning of the binary data.
+
+This concept is very commonly used in areas such as Email, the PDF format and Public Key Cryptography, to name but a few.
+
+There are many different formats and schemes for serilising binary data to text, employing different alphabet sizes and different printable ASCII characters used for various different reasons.
+
+It is also not just 8-bit binary data that could be serialised. Any collection of symbols declared to be in a given number base or alphabet size can be serialised into any other, provided an encoding ratio between the two symbols can be established and the input and output symbols defined.
+
+This library is my implementation of a generic, base-to-base converter which addresses this last point. An encoder and decoder for every binary-to-text format currently existing can be created and used with this library, requiring only for the details of the desired format to be given. Due to its flexibility, the library also makes it trivial to invent new wonderful and interesting base-to-base serialisation/conversion formats (I myself plan to work on and release one that translates binary files into a purely emoji-based format!).
+
+So, I hope you find this library fun, useful or both!
+
+## Installation
+
+#### Python Versions Supported
+This library is designed to work with the following **CPython** versions: **2.7.x**, **3.3.x or greater**.
+
+> :bulb: **Help Wanted**
+> If you have tried or want to try this out on any other Python implementations, your feedback would be greatly appreciated!
+>
+> [Open an issue](https://github.com/saxbophone/basest-python/issues) if you are interested.
+
 ## Usage
 Here is a short overview of the functions defined in this library, where to import them from and how to use them.
 
