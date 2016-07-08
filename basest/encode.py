@@ -19,7 +19,7 @@ def encode(
         for j in range(0, input_ratio):
             number += data[i + j] * (input_base ** (input_ratio - 1 - j))
         for r in range(0, output_ratio):
-            digit = int(number / (output_base ** (output_ratio - 1 - r)))
+            digit = number // (output_base ** (output_ratio - 1 - r))
             encoded.append(output_symbol_table[digit])
-            number -= int(digit * (output_base ** (output_ratio - 1 - r)))
+            number -= (digit * (output_base ** (output_ratio - 1 - r)))
     return encoded
