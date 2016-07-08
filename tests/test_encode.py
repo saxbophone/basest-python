@@ -1,4 +1,4 @@
-from unittest import unittest
+import unittest
 
 from ddt import data, ddt, unpack  # noqa
 
