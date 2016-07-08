@@ -53,12 +53,12 @@ Returns tuples containing an integer as the first item (representing the output 
 ```py
 >>> import basest
 >>>
->>> basest.best_ratio(input_base=256, output_base=94, chunk_sizes=range(256))
-(94, (92, 99))
->>> basest.best_ratio(input_base=256, output_base=94, chunk_sizes=range(512))
-(94, (355, 382))
->>> basest.best_ratio(input_base=256, output_bases=range(2, 95), chunk_sizes=range(256))
+>>> basest.best_ratio(input_base=256, output_bases=[94], chunk_sizes=range(1, 256))
 (94, (68, 83))
->>> basest.best_ratio(input_base=256, output_bases=range(2, 333), chunk_sizes=range(256))
+>>> basest.best_ratio(input_base=256, output_bases=[94], chunk_sizes=range(1, 512))
+(94, (458, 559))
+>>> basest.best_ratio(input_base=256, output_bases=range(2, 95), chunk_sizes=range(1, 256))
+(94, (68, 83))
+>>> basest.best_ratio(input_base=256, output_bases=range(2, 334), chunk_sizes=range(1, 256))
 (333, (243, 232))
 ```
