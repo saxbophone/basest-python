@@ -31,7 +31,7 @@ setup(
     author_email='joshua.a.saxby@gmail.com',
     license='Copyright 2016 Joshua Saxby',
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Intended Audience :: Education',
         'Intended Audience :: Information Technology',
