@@ -19,6 +19,6 @@ test:
 	coverage run --source='basest' tests/__main__.py
 
 cover:
-	coverage report -m --fail-under=0
+	coverage report -m --fail-under=100
 
 tests: clean lint test cover
