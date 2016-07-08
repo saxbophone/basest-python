@@ -41,9 +41,6 @@ class TestEncode(unittest.TestCase):
             input_ratio=input_ratio, output_ratio=output_ratio,
             input_data=input_data
         )
-
-        self.assertEqual(output_data, expected_output_data)
-
         decoded_data = encode(
             input_base=output_base, input_symbol_table=output_symbol_table,
             output_base=input_base, output_symbol_table=input_symbol_table,
@@ -51,4 +48,5 @@ class TestEncode(unittest.TestCase):
             input_data=output_data
         )
 
+        self.assertEqual(output_data, expected_output_data)
         self.assertEqual(decoded_data, input_data)
