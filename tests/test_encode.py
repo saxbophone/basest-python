@@ -20,7 +20,7 @@ class TestEncode(unittest.TestCase):
         (
             256, range(256), 85, range(85), 85, 4, 5,
             [43, 42, 41, 40, 39],
-            []
+            [13, 74, 17, 83, 81, 12, 45, 85, 85, 85]  # TODO: Check value
         ),
         # Base-64, using most common alphabet with no padding needed
         (

@@ -2,13 +2,16 @@
 # -*- coding: utf-8 -*-
 
 
-def encode(
+def old_encode(
     input_base, input_symbol_table, output_base, output_symbol_table,
     output_padding, input_ratio, output_ratio, input_data
 ):
     """
-    Encodes data from one base representation to another.
-    TODO: Better docstring!
+    Given input and output bases, ratios, symbol tables, the padding symbol
+    to use for output padding and the input data to encode, return an iterable
+    of the data encoded from the input base to the output base.
+    Uses standard base64-style padding if needed, using the given padding
+    symbol.
     """
     # convert input data from symbols to raw index numbers
     data = [input_symbol_table.index(symbol) for symbol in input_data]
@@ -23,3 +26,67 @@ def encode(
             encoded.append(output_symbol_table[digit])
             number -= (digit * (output_base ** (output_ratio - 1 - r)))
     return encoded
+
+
+def encode(
+    input_base, input_symbol_table, output_base, output_symbol_table,
+    output_padding, input_ratio, output_ratio, input_data
+):
+    """
+    Given input and output bases, ratios, symbol tables, the padding symbol
+    to use for output padding and the input data to encode, return an iterable
+    of the data encoded from the input base to the output base.
+    Uses standard base64-style padding if needed, using the given padding
+    symbol.
+    """
+    # store length of input data for future reference
+    input_length = len(input_data)
+    # calculate the amount of padding needed
+    padding_length = input_length % input_ratio
+    '''
+    get the neearest data length from the input data that is divisible by
+    the input ratio.
+    '''
+    input_nearest_length = (
+        input_length if padding_length == 0
+        else (
+            (
+                (
+                    (input_length - padding_length) // input_ratio
+                ) + 1
+            ) * input_ratio
+        )
+    )
+    # get the output length, based on nearest divisible input length
+    output_length = (input_nearest_length // input_ratio) * output_ratio
+    # create a new list for the output data
+    output_data = [output_symbol_table[0]] * output_length
+    # extend the input_data to the nearest divisible length
+    input_data.extend([input_symbol_table[0]] * (input_nearest_length - input_length))
+    # encode the data - store each group of input_ratio symbols in a number
+    for i in range(0, input_nearest_length, input_ratio):
+        store = 0
+        for j in range(0, input_ratio):
+            # get raw value of symbol
+            raw_value = input_symbol_table.index(input_data[i + j])
+            # upscale it if neccessary, in a little-endian manner
+            raw_value *= (input_base ** (input_ratio - j - 1))
+            # add to store
+            store += raw_value
+        '''
+        now that store contains the value of a number of symbols, separate this
+        out to the output symbols
+        '''
+        for j in range(0, output_ratio):
+            # convert output array index
+            index = ((i // input_ratio) * output_ratio) + j
+            # re-interpret the number in terms of output base
+            raw_value = store // (output_base ** (output_ratio - j - 1))
+            # store at the calculated position, using output table
+            output_data[index] = output_symbol_table[raw_value]
+            # decrement the store variable, having now encoded part of it
+            store -= (raw_value * (output_base ** (output_ratio - j - 1)))
+    # replace padding bytes with padding character if needed
+    for i in range(output_length - (input_nearest_length - input_length), output_length):
+        output_data[i] = output_padding
+    return output_data
