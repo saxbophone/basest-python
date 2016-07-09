@@ -29,9 +29,9 @@ This library is designed to work with the following **CPython** versions: **2.7.
 Here is a short overview of the functions defined in this library, where to import them from and how to use them.
 
 #### Encode from one base to another (where the encoding ratios to use are known)
-For a given **input base**, **input symbol table**, **output base**, **output symbol table**, **input ratio**, **output ratio** and the **input data** (as an iterable composed of items which are defined in **input symbol table**):
-Return the input data, encoded into the specified base using the specified encoding ratio and symbol tables.
-Returns the output data as a list of items that are guaranteed to be in the **output symbol table**.
+For a given **input base**, **input symbol table**, **output base**, **output symbol table**, **output padding**, **input ratio**, **output ratio** and the **input data** (as an iterable composed of items which are defined in **input symbol table**):
+Return the input data, encoded into the specified base using the specified encoding ratio and symbol tables (and the supplied **output padding** symbol used if needed).
+Returns the output data as a list of items that are guaranteed to be in the **output symbol table**, or the **output padding** symbol.
 
 ```py
 >>> import basest
@@ -39,7 +39,7 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 >>> basest.encode(
 ...     input_base=256, input_symbol_table=range(256),
 ...     output_base=85, output_symbol_table=range(85),
-...     input_ratio=4, output_ratio=5,
+...     output_padding=85, input_ratio=4, output_ratio=5,
 ...     input_data=[99, 97, 98, 98, 97, 103, 101, 115]
 ... )
 [31, 79, 81, 71, 52, 31, 25, 82, 13, 76]
