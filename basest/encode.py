@@ -4,7 +4,7 @@
 
 def encode(
     input_base, input_symbol_table, output_base, output_symbol_table,
-    input_ratio, output_ratio, input_data
+    output_padding, input_ratio, output_ratio, input_data
 ):
     """
     Encodes data from one base representation to another.
