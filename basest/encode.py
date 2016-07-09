@@ -2,32 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-def old_encode(
-    input_base, input_symbol_table, output_base, output_symbol_table,
-    output_padding, input_ratio, output_ratio, input_data
-):
-    """
-    Given input and output bases, ratios, symbol tables, the padding symbol
-    to use for output padding and the input data to encode, return an iterable
-    of the data encoded from the input base to the output base.
-    Uses standard base64-style padding if needed, using the given padding
-    symbol.
-    """
-    # convert input data from symbols to raw index numbers
-    data = [input_symbol_table.index(symbol) for symbol in input_data]
-    # this list will store the output
-    encoded = list()
-    for i in range(0, len(data), input_ratio):
-        number = 0
-        for j in range(0, input_ratio):
-            number += data[i + j] * (input_base ** (input_ratio - 1 - j))
-        for r in range(0, output_ratio):
-            digit = number // (output_base ** (output_ratio - 1 - r))
-            encoded.append(output_symbol_table[digit])
-            number -= (digit * (output_base ** (output_ratio - 1 - r)))
-    return encoded
-
-
 def encode(
     input_base, input_symbol_table, output_base, output_symbol_table,
     output_padding, input_ratio, output_ratio, input_data
