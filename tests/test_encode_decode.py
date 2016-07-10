@@ -14,6 +14,9 @@ base93_alphabet = (
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`'
     'abcdefghijklmnopqrstuvwxyz{|}'
 )
+base58_bitcoin_alphabet = (
+    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+)
 
 
 @ddt
@@ -310,6 +313,32 @@ class TestEncodeDecode(unittest.TestCase):
                 ]
             )
         ),
+        # Base-58, using the bitcoin alphabet. This one requires padding
+        (
+            256, [chr(b) for b in range(256)],
+            58, base58_bitcoin_alphabet,
+            '-', 8, 11,
+            list(
+                [
+                    c for c in (
+                        'Base-58 is somewhat peculiar, and does not align..!'
+                    )
+                ]
+            )
+        ),
+        # Base-58, using the bitcoin alphabet. This one does not need padding
+        (
+            256, [chr(b) for b in range(256)],
+            58, base58_bitcoin_alphabet,
+            '-', 8, 11,
+            list(
+                [
+                    c for c in (
+                        'Base-58 is somewhat peculiar, and does not align'
+                    )
+                ]
+            )
+        )
     )
     @unpack
     def test_encode_decode(
