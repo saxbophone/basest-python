@@ -19,6 +19,8 @@ base93_alphabet = (
 @ddt
 class TestEncodeDecode(unittest.TestCase):
     maxDiff = None
+
+    @unittest.skip
     @data(
         # Base-85, using just numbers for symbols - no padding required
         (
@@ -131,6 +133,7 @@ class TestEncodeDecode(unittest.TestCase):
 
         self.assertEqual(output_data, expected_output_data)
 
+    @unittest.skip
     @data(
         # Base-85, using just numbers for symbols - no padding
         (
