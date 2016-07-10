@@ -15,17 +15,19 @@ def decode(
     Assumes standard base64-style padding using the given input padding symbol,
     but can handle unpadded input just fine.
     """
-    input_length = len(input_data)
+    # create a 'workon' copy of the input data so we don't end up changing it
+    before = list(input_data)
+    input_length = len(before)
     overlap = input_length % input_ratio
     # first, check if the input data is not long enough and pad it if it isn't
     if overlap > 0:
         ...
     # count number of padding characters
-    padding_length = input_data.count(input_padding)
+    padding_length = before.count(input_padding)
     # now, replace all padding characters with the symbol of index 0
-    input_data = [
+    before = [
         (s if s != input_padding else input_symbol_table[0])
-        for s in input_data
+        for s in before
     ]
     # use the encode function to convert the data
     output_data = encode(
@@ -33,7 +35,7 @@ def decode(
         output_base=output_base, output_symbol_table=output_symbol_table,
         output_padding=None,
         input_ratio=input_ratio, output_ratio=output_ratio,
-        input_data=input_data
+        input_data=before
     )
     # strip off the unnecessary trailing zeros if there was padding
     [output_data.pop() for _ in range(padding_length)]

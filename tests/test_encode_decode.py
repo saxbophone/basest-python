@@ -18,6 +18,7 @@ base93_alphabet = (
 
 @ddt
 class TestEncodeDecode(unittest.TestCase):
+    maxDiff = None
     @data(
         # Base-85, using just numbers for symbols - no padding required
         (
@@ -240,3 +241,102 @@ class TestEncodeDecode(unittest.TestCase):
         )
 
         self.assertEqual(output_data, expected_output_data)
+
+    @data(
+        # Base-85, using just numbers for symbols - no padding required
+        (
+            256, range(256),
+            85, range(85),
+            85, 4, 5,
+            [99, 97, 98, 98, 97, 103, 101, 115]
+        ),
+        # Base-85, using just numbers for symbols - padding is required
+        (
+            256, range(256),
+            85, range(85),
+            85, 4, 5,
+            [43, 42, 41, 40, 39]
+        ),
+        # Base-64, using most common alphabet with no padding needed
+        (
+            256, [chr(b) for b in range(256)],
+            64, base64_alphabet,
+            '=', 3, 4,
+            list([c for c in 'cabbages!'])
+        ),
+        # Base-64, with a string that needs one padding symbol
+        (
+            256, [chr(b) for b in range(256)],
+            64, base64_alphabet,
+            '=', 3, 4,
+            list([c for c in 'slartybartfast'])
+        ),
+        # Base-64, with a string that needs two padding symbols
+        (
+            256, [chr(b) for b in range(256)],
+            64, base64_alphabet,
+            '=', 3, 4,
+            list([c for c in 'belfast'])
+        ),
+        # Base-93, using the base-94 alphabet with the last used for padding
+        # This tests for an input requiring no padding
+        (
+            256, [chr(b) for b in range(256)],
+            93, base93_alphabet,
+            '~', 94, 115,
+            list(
+                [
+                    c for c in (
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing '
+                        'elit. Duis eget dui non lorem tempus metus.'
+                    )
+                ]
+            )
+        ),
+        # Base-93, using the base-94 alphabet with the last used for padding
+        # This tests for an input that requires padding
+        (
+            256, [chr(b) for b in range(256)],
+            93, base93_alphabet,
+            '~', 94, 115,
+            list(
+                [
+                    c for c in (
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing'
+                    )
+                ]
+            )
+        ),
+    )
+    @unpack
+    def test_encode_decode(
+        self,
+        input_base, input_symbol_table,
+        output_base, output_symbol_table,
+        output_padding,
+        input_ratio, output_ratio,
+        input_data
+    ):
+        """
+        Test that basest.encode can encode data that can then be decoded with
+        basest.decode to the same input.
+        """
+        # encode data
+        output_data = encode(
+            input_base=input_base, input_symbol_table=input_symbol_table,
+            output_base=output_base, output_symbol_table=output_symbol_table,
+            output_padding=output_padding,
+            input_ratio=input_ratio, output_ratio=output_ratio,
+            input_data=input_data
+        )
+        # decode data
+        decoded_data = decode(
+            input_base=output_base, input_symbol_table=output_symbol_table,
+            input_padding=output_padding,
+            output_base=input_base, output_symbol_table=input_symbol_table,
+            input_ratio=output_ratio, output_ratio=input_ratio,
+            input_data=output_data
+        )
+
+        # check data
+        self.assertEqual(decoded_data, input_data)
