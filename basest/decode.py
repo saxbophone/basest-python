@@ -17,11 +17,6 @@ def decode(
     """
     # create a 'workon' copy of the input data so we don't end up changing it
     before = list(input_data)
-    input_length = len(before)
-    overlap = input_length % input_ratio
-    # first, check if the input data is not long enough and pad it if it isn't
-    if overlap > 0:
-        ...
     # count number of padding characters
     padding_length = before.count(input_padding)
     # now, replace all padding characters with the symbol of index 0
@@ -39,4 +34,17 @@ def decode(
     )
     # strip off the unnecessary trailing zeros if there was padding
     [output_data.pop() for _ in range(padding_length)]
+    '''
+    HACK: If there was overlap and both bases raised to the power of their
+    ratios are not equal, increment the last symbol.
+
+    TODO: Work out why this works and thoroughly test it.
+    '''
+    if (
+            (padding_length > 0)
+            and (input_base ** input_ratio) != (output_base ** output_ratio)
+    ):
+        output_data[-1] = output_symbol_table[
+            (output_symbol_table.index(output_data[-1]) + 1) % output_base
+        ]
     return output_data
