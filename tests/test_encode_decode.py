@@ -111,7 +111,7 @@ class TestEncodeDecode(unittest.TestCase):
                     )
                 ]
             )
-        ),
+        )
     )
     @unpack
     def test_encode(
@@ -224,7 +224,7 @@ class TestEncodeDecode(unittest.TestCase):
                     )
                 ]
             )
-        ),
+        )
     )
     @unpack
     def test_decode(
@@ -337,6 +337,16 @@ class TestEncodeDecode(unittest.TestCase):
                         'Base-58 is somewhat peculiar, and does not align'
                     )
                 ]
+            )
+        ),
+        # Base-93, using the base-94 alphabet with the last used for padding
+        # This tests for an input that requires padding, and is all-zero
+        (
+            256, [chr(b) for b in range(256)],
+            93, base93_alphabet,
+            '~', 94, 115,
+            list(
+                [chr(0) for _ in range(50)]
             )
         )
     )
