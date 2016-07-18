@@ -23,7 +23,7 @@ def retrieve_deps(filepath):
 
 setup(
     name='basest',
-    version='0.1.0',
+    version='0.2.0',
     description='Converts symbols from any number base to any other number base',  # noqa
     long_description=read('README.md'),
     url='https://github.com/saxbophone/basest-python',
