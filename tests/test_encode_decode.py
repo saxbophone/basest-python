@@ -23,7 +23,6 @@ base58_bitcoin_alphabet = (
 class TestEncodeDecode(unittest.TestCase):
     maxDiff = None
 
-    @unittest.skip
     @data(
         # Base-85, using just numbers for symbols - no padding required
         (
@@ -136,7 +135,6 @@ class TestEncodeDecode(unittest.TestCase):
 
         self.assertEqual(output_data, expected_output_data)
 
-    @unittest.skip
     @data(
         # Base-85, using just numbers for symbols - no padding
         (
@@ -347,6 +345,26 @@ class TestEncodeDecode(unittest.TestCase):
             '~', 94, 115,
             list(
                 [chr(0) for _ in range(50)]
+            )
+        ),
+        # Base-93, using the base-94 alphabet with the last used for padding
+        # This tests for an input that requires padding, and is all half of max
+        (
+            256, [chr(b) for b in range(256)],
+            93, base93_alphabet,
+            '~', 94, 115,
+            list(
+                [chr(127) for _ in range(50)]
+            )
+        ),
+        # Base-93, using the base-94 alphabet with the last used for padding
+        # This tests for an input that requires padding, and is all-255
+        (
+            256, [chr(b) for b in range(256)],
+            93, base93_alphabet,
+            '~', 94, 115,
+            list(
+                [chr(255) for _ in range(50)]
             )
         )
     )

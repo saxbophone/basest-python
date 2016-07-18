@@ -19,9 +19,15 @@ def decode(
     before = list(input_data)
     # count number of padding characters
     padding_length = before.count(input_padding)
-    # now, replace all padding characters with the symbol of index 0
+    # now, replace all padding characters with the maximmum symbol
+    '''
+    Explanation: This solution is for bases that don't match up exactly, given
+    their chosen ratios. It was inspired by the same technique that is used in
+    base85/ascii85 decoding and does not negatively impact 'perfect' aligning
+    bases such as base64.
+    '''
     before = [
-        (s if s != input_padding else input_symbol_table[0])
+        (s if s != input_padding else input_symbol_table[input_base - 1])
         for s in before
     ]
     # use the encode function to convert the data
@@ -32,19 +38,6 @@ def decode(
         input_ratio=input_ratio, output_ratio=output_ratio,
         input_data=before
     )
-    # strip off the unnecessary trailing zeros if there was padding
+    # strip off the unnecessary padding symbols if there was padding
     [output_data.pop() for _ in range(padding_length)]
-    '''
-    HACK: If there was overlap and both bases raised to the power of their
-    ratios are not equal, increment the last symbol.
-
-    TODO: Work out why this works and thoroughly test it.
-    '''
-    if (
-            (padding_length > 0)
-            and (input_base ** input_ratio) != (output_base ** output_ratio)
-    ):
-        output_data[-1] = output_symbol_table[
-            (output_symbol_table.index(output_data[-1]) + 1) % output_base
-        ]
     return output_data
