@@ -45,6 +45,24 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 [31, 79, 81, 71, 52, 31, 25, 82, 13, 76]
 ```
 
+#### Decode from one encoded base to another.
+For a given **input base**, **input symbol table**, **input padding**, **output base**, **output symbol table**, **input ratio**, **output ratio** and the **input data** (as an iterable composed of items which are defined in **input symbol table**), return the input data, decoded from the base it was encoded into.
+Returns the output data as a list of items that are guaranteed to be in the **output symbol table**, with no padding.
+
+> This is essentially the inverse of `encode()`
+
+```py
+>>> import basest
+>>>
+>>> basest.decode(
+...     input_base=85, input_symbol_table=range(85), input_padding=85,
+...     output_base=256, output_symbol_table=range(256),
+...     input_ratio=5, output_ratio=4,
+...     input_data=[31, 79, 81, 71, 52, 31, 25, 82, 13, 76]
+... )
+[99, 97, 98, 98, 97, 103, 101, 115]
+```
+
 #### Finding the best encoding ratio from one base to any base within a given range
 For a given **input base** (e.g. base-256 / 8-bit Bytes), a given desired **output base** (e.g. base 94) **OR** a given range of acceptable **output bases** and a range of **chunk sizes** to consider using for the input (amount of bytes/symbols processed at once), return the most efficient output base and encoding ratio to use (in terms of input base to output base).
 

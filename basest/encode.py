@@ -13,8 +13,10 @@ def encode(
     Uses standard base64-style padding if needed, using the given padding
     symbol.
     """
+    # create a 'workon' copy of the input data so we don't end up changing it
+    before = list(input_data)
     # store length of input data for future reference
-    input_length = len(input_data)
+    input_length = len(before)
     # calculate the amount of overlap (if any)
     overlap = input_length % input_ratio
     '''
@@ -38,13 +40,13 @@ def encode(
     # create a new list for the output data
     output_data = [output_symbol_table[0]] * output_length
     # extend the input_data to the nearest divisible length (for padding)
-    input_data.extend([input_symbol_table[0]] * padding_length)
+    before.extend([input_symbol_table[0]] * padding_length)
     # encode the data - store each group of input_ratio symbols in a number
     for i in range(0, input_nearest_length, input_ratio):
         store = 0
         for j in range(0, input_ratio):
             # get raw value of symbol
-            raw_value = input_symbol_table.index(input_data[i + j])
+            raw_value = input_symbol_table.index(before[i + j])
             # upscale it if neccessary, in a little-endian manner
             raw_value *= (input_base ** (input_ratio - j - 1))
             # add to store
