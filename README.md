@@ -96,7 +96,7 @@ First of all, let's find us some appropriate encoding ratios within given ranges
 (78, (7, 9))  # we could probably go a bit larger but this will do
 ```
 
-Now, let's choose a padding character from one of the other Unicode emoji codepages. I decided to choose the `bear face` emoji (:bear_face: / 🐻), codepoint `0x1F43B`.
+Now, let's choose a padding character from one of the other Unicode emoji codepages. I decided to choose the `bear face` emoji (:bear: / 🐻), codepoint `0x1F43B`.
 
 With these chosen parameters and a body of input data (will use text for this example), we can put it all together:
 
