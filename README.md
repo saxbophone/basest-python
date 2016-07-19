@@ -84,6 +84,8 @@ Returns tuples containing an integer as the first item (representing the output 
 ## Further Examples
 
 #### Base-78, using emoji as output (just for fun)
+> **Note:** This example is aimed at Python 3 and may not work on Python 2 without some modification (or at all).
+
 Unicode character ranges `0x1F601` through to `0x1F64F` are allocated for *emoticon emoji*. This range provides us with 78 characters to play with.
 
 First of all, let's find us some appropriate encoding ratios within given ranges:
