@@ -18,13 +18,17 @@ def retrieve_deps(filepath):
     understand, parse it using pip's parser and return the requirements it
     contains as a list.
     """
-    return [str(dep.req) for dep in parse_requirements(filepath, session=False)]  # noqa
+    return [
+        str(dep.req) for dep in parse_requirements(filepath, session=False)
+    ]
 
 
 setup(
     name='basest',
     version='0.2.0',
-    description='Converts symbols from any number base to any other number base',  # noqa
+    description=(
+        'Converts symbols from any number base to any other number base'
+    ),
     long_description=read('README.md'),
     url='https://github.com/saxbophone/basest-python',
     author='Joshua Saxby',
