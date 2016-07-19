@@ -105,12 +105,12 @@ With these chosen parameters and a body of input data (will use text for this ex
 >>> # input data variable
 >>> message = ...
 >>> output = encode(
-    256, [chr(i) for i in range(256)],  # input base and symbol table
-    78, [chr(0x1F601 + o) for o in range(78)],  # output base and symbol table
-    chr(0x1F43B),  # padding character
-    7, 9,  # encoding ratio
-    message
-)
+...     256, [chr(i) for i in range(256)],  # input base and symbol table
+...     78, [chr(0x1F601 + o) for o in range(78)],  # output base and symbol table
+...     chr(0x1F43B),  # padding character
+...     7, 9,  # encoding ratio
+...     message
+... )
 ```
 
 Given this input message (in ASCII):
