@@ -25,6 +25,14 @@ This library is designed to work with the following **CPython** versions: **2.7.
 >
 > [Open an issue](https://github.com/saxbophone/basest-python/issues) if you are interested.
 
+#### Install from PyPi (preferred)
+> **Note:** Package is currently not hosted on PyPi, but will be in the future.
+
+`pip install basest`
+
+#### Install from git repository (at master branch)
+`pip install git+git://github.com/saxbophone/basest-python`
+
 ## Usage
 Here is a short overview of the functions defined in this library, where to import them from and how to use them.
 
