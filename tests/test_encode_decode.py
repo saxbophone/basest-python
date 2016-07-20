@@ -6,6 +6,7 @@ from ddt import data, ddt, unpack
 
 from basest import decode, encode
 
+
 base64_alphabet = (
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 )

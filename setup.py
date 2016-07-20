@@ -1,15 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
+
 from pip.req import parse_requirements
+from pypandoc import convert_text
 from setuptools import setup
 
 
-def read(filepath):
+def readme(filepath):
     """
-    Utility function to read the README file.
+    Utility function to convert the README file to RST format and return it.
     """
-    return open(os.path.join(os.path.dirname(__file__), filepath)).read()
+    return convert_text(
+        open(os.path.join(os.path.dirname(__file__), filepath)).read(),
+        'rst', format='md'
+    )
 
 
 def retrieve_deps(filepath):
@@ -29,7 +34,7 @@ setup(
     description=(
         'Converts symbols from any number base to any other number base'
     ),
-    long_description=read('README.md'),
+    long_description=readme('README.md'),
     url='https://github.com/saxbophone/basest-python',
     author='Joshua Saxby',
     author_email='joshua.a.saxby@gmail.com',
@@ -59,7 +64,8 @@ setup(
     packages=['basest', 'tests', ],
     install_requires=retrieve_deps('python_requirements/base.txt'),
     extras_require={
-        'test': retrieve_deps('python_requirements/test.txt')
+        'test': retrieve_deps('python_requirements/test.txt'),
+        'build': retrieve_deps('python_requirements/build.txt'),
     },
     package_data={
         '': ['README.md', 'LICENSE'],
