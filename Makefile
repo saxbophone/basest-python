@@ -5,6 +5,9 @@ install-deps:
 	pip install -r python_requirements/base.txt
 	pip install -r python_requirements/test.txt
 
+install-build-deps:
+	pip install -r python_requirements/build.txt
+
 clean:
 	rm -rf basest/*.py[cod]
 	rm -rf tests/*.py[cod]
