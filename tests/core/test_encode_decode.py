@@ -4,7 +4,7 @@ import unittest
 
 from ddt import data, ddt, unpack
 
-from basest import decode, encode
+from basest.core import decode, encode
 
 
 base64_alphabet = (

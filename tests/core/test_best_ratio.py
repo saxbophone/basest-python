@@ -4,7 +4,7 @@ import unittest
 
 from ddt import data, ddt, unpack
 
-from basest import best_ratio
+from basest.core import best_ratio
 
 
 @ddt

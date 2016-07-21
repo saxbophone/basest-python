@@ -44,7 +44,7 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 ```py
 >>> import basest
 >>>
->>> basest.encode(
+>>> basest.core.encode(
 ...     input_base=256, input_symbol_table=range(256),
 ...     output_base=85, output_symbol_table=range(85),
 ...     output_padding=85, input_ratio=4, output_ratio=5,
@@ -62,7 +62,7 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 ```py
 >>> import basest
 >>>
->>> basest.decode(
+>>> basest.core.decode(
 ...     input_base=85, input_symbol_table=range(85), input_padding=85,
 ...     output_base=256, output_symbol_table=range(256),
 ...     input_ratio=5, output_ratio=4,
@@ -79,13 +79,13 @@ Returns tuples containing an integer as the first item (representing the output 
 ```py
 >>> import basest
 >>>
->>> basest.best_ratio(input_base=256, output_bases=[94], chunk_sizes=range(1, 256))
+>>> basest.core.best_ratio(input_base=256, output_bases=[94], chunk_sizes=range(1, 256))
 (94, (68, 83))
->>> basest.best_ratio(input_base=256, output_bases=[94], chunk_sizes=range(1, 512))
+>>> basest.core.best_ratio(input_base=256, output_bases=[94], chunk_sizes=range(1, 512))
 (94, (458, 559))
->>> basest.best_ratio(input_base=256, output_bases=range(2, 95), chunk_sizes=range(1, 256))
+>>> basest.core.best_ratio(input_base=256, output_bases=range(2, 95), chunk_sizes=range(1, 256))
 (94, (68, 83))
->>> basest.best_ratio(input_base=256, output_bases=range(2, 334), chunk_sizes=range(1, 256))
+>>> basest.core.best_ratio(input_base=256, output_bases=range(2, 334), chunk_sizes=range(1, 256))
 (333, (243, 232))
 ```
 
@@ -99,7 +99,7 @@ Unicode character ranges `0x1F601` through to `0x1F64F` are allocated for *emoti
 First of all, let's find us some appropriate encoding ratios within given ranges:
 
 ```py
->>> from basest import best_ratio
+>>> from basest.core import best_ratio
 >>> best_ratio(256, [78], range(2, 1024))
 (78, (1019, 1297))  # hmm, maybe a bit too big
 >>> best_ratio(256, [78], range(2, 16))
@@ -111,7 +111,7 @@ Now, let's choose a padding character from one of the other Unicode emoji codepa
 With these chosen parameters and a body of input data (will use text for this example), we can put it all together:
 
 ```py
->>> from basest import encode
+>>> from basest.core import encode
 >>> # input data variable
 >>> message = ...
 >>> output = encode(
