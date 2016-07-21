@@ -1,9 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from __future__ import (
-    absolute_import, division, print_function, unicode_literals
-)
-
 import os
 
 from pip.req import parse_requirements
@@ -34,7 +30,7 @@ def retrieve_deps(filepath):
 
 setup(
     name='basest',
-    version='0.3.0a1',
+    version='0.3.0a2',
     description=(
         'Converts symbols from any number base to any other number base'
     ),
