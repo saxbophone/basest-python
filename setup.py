@@ -34,7 +34,7 @@ def retrieve_deps(filepath):
 
 setup(
     name='basest',
-    version='0.2.0',
+    version='0.3.0a1',
     description=(
         'Converts symbols from any number base to any other number base'
     ),
