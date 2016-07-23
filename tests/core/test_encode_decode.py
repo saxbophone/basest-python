@@ -11,17 +11,20 @@ from ddt import data, ddt, unpack
 from basest.core import decode, encode
 
 
-base64_alphabet = (
+base64_alphabet = [
+    s for s in
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-)
-base93_alphabet = (
+]
+base93_alphabet = [
+    s for s in
     '!"#$%&\'()*+,-./0123456789:;<=>?@'
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`'
     'abcdefghijklmnopqrstuvwxyz{|}'
-)
-base58_bitcoin_alphabet = (
+]
+base58_bitcoin_alphabet = [
+    s for s in
     '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-)
+]
 
 
 @ddt
@@ -31,16 +34,16 @@ class TestEncodeDecode(unittest.TestCase):
     @data(
         # Base-85, using just numbers for symbols - no padding required
         (
-            256, range(256),
-            85, range(85),
+            256, list(range(256)),
+            85, list(range(85)),
             85, 4, 5,
             [99, 97, 98, 98, 97, 103, 101, 115],
             [31, 79, 81, 71, 52, 31, 25, 82, 13, 76]
         ),
         # Base-85, using just numbers for symbols - padding is required
         (
-            256, range(256),
-            85, range(85),
+            256, list(range(256)),
+            85, list(range(85)),
             85, 4, 5,
             [43, 42, 41, 40, 39],
             [13, 74, 17, 83, 81, 12, 45, 85, 85, 85]  # TODO: Check value
@@ -143,16 +146,16 @@ class TestEncodeDecode(unittest.TestCase):
     @data(
         # Base-85, using just numbers for symbols - no padding
         (
-            85, range(85),
-            256, range(256),
+            85, list(range(85)),
+            256, list(range(256)),
             85, 5, 4,
             [31, 79, 81, 71, 52, 31, 25, 82, 13, 76],
             [99, 97, 98, 98, 97, 103, 101, 115]
         ),
         # Base-85, using just numbers for symbols - includes padding
         (
-            85, range(85),
-            256, range(256),
+            85, list(range(85)),
+            256, list(range(256)),
             85, 5, 4,
             [13, 74, 17, 83, 81, 12, 45, 85, 85, 85],  # TODO: Check value
             [43, 42, 41, 40, 39]
@@ -254,15 +257,15 @@ class TestEncodeDecode(unittest.TestCase):
     @data(
         # Base-85, using just numbers for symbols - no padding required
         (
-            256, range(256),
-            85, range(85),
+            256, list(range(256)),
+            85, list(range(85)),
             85, 4, 5,
             [99, 97, 98, 98, 97, 103, 101, 115]
         ),
         # Base-85, using just numbers for symbols - padding is required
         (
-            256, range(256),
-            85, range(85),
+            256, list(range(256)),
+            85, list(range(85)),
             85, 4, 5,
             [43, 42, 41, 40, 39]
         ),
