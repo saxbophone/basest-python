@@ -32,22 +32,6 @@ class TestEncodeDecode(unittest.TestCase):
     maxDiff = None
 
     @data(
-        # Base-85, using just numbers for symbols - no padding required
-        (
-            256, list(range(256)),
-            85, list(range(85)),
-            85, 4, 5,
-            [99, 97, 98, 98, 97, 103, 101, 115],
-            [31, 79, 81, 71, 52, 31, 25, 82, 13, 76]
-        ),
-        # Base-85, using just numbers for symbols - padding is required
-        (
-            256, list(range(256)),
-            85, list(range(85)),
-            85, 4, 5,
-            [43, 42, 41, 40, 39],
-            [13, 74, 17, 83, 81, 12, 45, 85, 85, 85]  # TODO: Check value
-        ),
         # Base-64, using most common alphabet with no padding needed
         (
             256, [chr(b) for b in range(256)],
@@ -114,7 +98,7 @@ class TestEncodeDecode(unittest.TestCase):
                     c for c in (
                         '<bScIZn]2oUn]4Jp=gJkWWp|h3[tysL(p:H7$`m*F|FSN+rZ`s'
                         '48,R_B:G\'+O2bR!S_{|x0~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-                        '~~~~~~~~~~~~~~~~'  # TODO: Check this, looks fishy
+                        '~~~~~~~~~~~~~~~~'
                     )
                 ]
             )
@@ -144,22 +128,6 @@ class TestEncodeDecode(unittest.TestCase):
         self.assertEqual(output_data, expected_output_data)
 
     @data(
-        # Base-85, using just numbers for symbols - no padding
-        (
-            85, list(range(85)),
-            256, list(range(256)),
-            85, 5, 4,
-            [31, 79, 81, 71, 52, 31, 25, 82, 13, 76],
-            [99, 97, 98, 98, 97, 103, 101, 115]
-        ),
-        # Base-85, using just numbers for symbols - includes padding
-        (
-            85, list(range(85)),
-            256, list(range(256)),
-            85, 5, 4,
-            [13, 74, 17, 83, 81, 12, 45, 85, 85, 85],  # TODO: Check value
-            [43, 42, 41, 40, 39]
-        ),
         # Base-64, using most common alphabet - no padding
         (
             64, base64_alphabet,
@@ -219,7 +187,7 @@ class TestEncodeDecode(unittest.TestCase):
                     c for c in (
                         '<bScIZn]2oUn]4Jp=gJkWWp|h3[tysL(p:H7$`m*F|FSN+rZ`s'
                         '48,R_B:G\'+O2bR!S_{|x0~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-                        '~~~~~~~~~~~~~~~~'  # TODO: Check this, looks fishy
+                        '~~~~~~~~~~~~~~~~'
                     )
                 ]
             ),
@@ -255,20 +223,6 @@ class TestEncodeDecode(unittest.TestCase):
         self.assertEqual(output_data, expected_output_data)
 
     @data(
-        # Base-85, using just numbers for symbols - no padding required
-        (
-            256, list(range(256)),
-            85, list(range(85)),
-            85, 4, 5,
-            [99, 97, 98, 98, 97, 103, 101, 115]
-        ),
-        # Base-85, using just numbers for symbols - padding is required
-        (
-            256, list(range(256)),
-            85, list(range(85)),
-            85, 4, 5,
-            [43, 42, 41, 40, 39]
-        ),
         # Base-64, using most common alphabet with no padding needed
         (
             256, [chr(b) for b in range(256)],
