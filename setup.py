@@ -4,7 +4,7 @@ import os
 
 from pip.req import parse_requirements
 from pypandoc import convert_text
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 def readme(filepath):
@@ -30,7 +30,7 @@ def retrieve_deps(filepath):
 
 setup(
     name='basest',
-    version='0.4dev1',
+    version='0.4.0',
     description=(
         'Converts symbols from any number base to any other number base'
     ),
@@ -61,7 +61,7 @@ setup(
         'Topic :: Utilities',
     ],
     keywords='number base encoder decoder conversion encoding decoding',
-    packages=['basest', 'tests', ],
+    packages=find_packages(),
     install_requires=retrieve_deps('python_requirements/base.txt'),
     extras_require={
         'test': retrieve_deps('python_requirements/test.txt'),
