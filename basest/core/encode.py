@@ -7,7 +7,7 @@ from __future__ import (
 from .utils import ints_to_symbols, symbols_to_ints
 
 
-def raw_encode(input_base, output_base, input_ratio, output_ratio, input_data):
+def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     """
     Given an input base, an output base, input ratio, output ratio and input
     data (as an iterable of integers), return an iterable of integers of the
@@ -86,8 +86,8 @@ def encode(
     """
     # create workon copy of input data and convert symbols to raw ints
     before = symbols_to_ints(input_data, input_symbol_table)
-    # use raw_encode() to encode the data
-    output_data = raw_encode(
+    # use encode_raw() to encode the data
+    output_data = encode_raw(
         input_base=input_base, output_base=output_base,
         input_ratio=input_ratio, output_ratio=output_ratio, input_data=before
     )
