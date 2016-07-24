@@ -9,9 +9,8 @@ install-build-deps:
 	pip install -r python_requirements/build.txt
 
 clean:
-	rm -rf basest/*.py[cod]
-	rm -rf tests/*.py[cod]
-	rm -rf *.py[cod]
+	rm -rf basest/*.py[cod] tests/*.py[cod] *.py[cod] *__pycache__*
+	rm -rf basest.egg-info build dist
 
 lint:
 	flake8 basest tests setup.py
@@ -25,3 +24,6 @@ cover:
 	coverage report -m --fail-under=100
 
 tests: clean lint test cover
+
+package:
+	python setup.py sdist bdist_wheel

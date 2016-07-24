@@ -45,9 +45,27 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 >>> import basest
 >>>
 >>> basest.core.encode(
-...     input_base=256, input_symbol_table=range(256),
-...     output_base=85, output_symbol_table=range(85),
-...     output_padding=85, input_ratio=4, output_ratio=5,
+...     input_base=256,
+...     input_symbol_table=[chr(c) for c in range(256)],
+...     output_base=64,
+...     output_symbol_table=[
+...         s for s in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+...     ],
+...     output_padding='=', input_ratio=3, output_ratio=4,
+...     input_data='falafel'
+... )
+['Z', 'm', 'F', 's', 'Y', 'W', 'Z', 'l', 'b', 'A', '=', '=']
+```
+
+#### Raw Encode
+Similar to the function above, `basest.core.raw_encode` will encode one base into another, but only accepts and returns arrays of integers (e.g. bytes would be passed as integers between 0-255, not as `byte` objects). As such, it omits the **padding** and **symbol table** arguments, but is otherwise identical in function and form to `encode`.
+
+```py
+>>> import basest
+>>>
+>>> basest.core.raw_encode(
+...     input_base=256, output_base=85,
+...     input_ratio=4, output_ratio=5,
 ...     input_data=[99, 97, 98, 98, 97, 103, 101, 115]
 ... )
 [31, 79, 81, 71, 52, 31, 25, 82, 13, 76]
@@ -63,8 +81,26 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 >>> import basest
 >>>
 >>> basest.core.decode(
-...     input_base=85, input_symbol_table=range(85), input_padding=85,
-...     output_base=256, output_symbol_table=range(256),
+...     input_base=64,
+...     input_symbol_table=[
+...         s for s in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+...     ],
+...     input_padding='=',
+...     output_base=256, output_symbol_table=[chr(c) for c in range(256)],
+...     input_ratio=4, output_ratio=3,
+...     input_data='YWJhY3VzIFpaWg=='
+... )
+['a', 'b', 'a', 'c', 'u', 's', ' ', 'Z', 'Z', 'Z']
+```
+
+#### Raw Decode
+Similar to the function above, `basest.core.raw_decode` will decode from one base to another, but only accepts and returns arrays of integers (e.g. base64 would be passed as integers between 0-65 (65 is for the padding symbol), not as `str` objects). As such, it omits the **padding** and **symbol table** arguments, but is otherwise identical in function and form to `decode`.
+
+```py
+>>> import basest
+>>>
+>>> basest.core.raw_decode(
+...     input_base=85, output_base=256,
 ...     input_ratio=5, output_ratio=4,
 ...     input_data=[31, 79, 81, 71, 52, 31, 25, 82, 13, 76]
 ... )
