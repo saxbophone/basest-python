@@ -4,11 +4,11 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
-from .encode import raw_encode
+from .encode import encode_raw
 from .utils import ints_to_symbols, symbols_to_ints
 
 
-def raw_decode(input_base, output_base, input_ratio, output_ratio, input_data):
+def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     """
     Given an input base, an output base, input ratio, output ratio and input
     data (as an iterable of integers), return an iterable of integers of the
@@ -29,8 +29,8 @@ def raw_decode(input_base, output_base, input_ratio, output_ratio, input_data):
     bases such as base64.
     '''
     before = [(s if s != input_base else input_base - 1) for s in before]
-    # use the raw_encode function to convert the data
-    output_data = raw_encode(
+    # use the encode_raw function to convert the data
+    output_data = encode_raw(
         input_base=input_base, output_base=output_base,
         input_ratio=input_ratio, output_ratio=output_ratio, input_data=before
     )
@@ -54,8 +54,8 @@ def decode(
     # create workon copy of input data and convert symbols to raw ints
     # NOTE: input symbol table here includes the padding character
     before = symbols_to_ints(input_data, input_symbol_table + [input_padding])
-    # use raw_decode() to decode the data
-    output_data = raw_decode(
+    # use decode_raw() to decode the data
+    output_data = decode_raw(
         input_base=input_base, output_base=output_base,
         input_ratio=input_ratio, output_ratio=output_ratio, input_data=before
     )

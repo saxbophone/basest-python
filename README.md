@@ -57,13 +57,13 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 ['Z', 'm', 'F', 's', 'Y', 'W', 'Z', 'l', 'b', 'A', '=', '=']
 ```
 
-#### Raw Encode
-Similar to the function above, `basest.core.raw_encode` will encode one base into another, but only accepts and returns arrays of integers (e.g. bytes would be passed as integers between 0-255, not as `byte` objects). As such, it omits the **padding** and **symbol table** arguments, but is otherwise identical in function and form to `encode`.
+#### Encode Raw
+Similar to the function above, `basest.core.encode_raw` will encode one base into another, but only accepts and returns arrays of integers (e.g. bytes would be passed as integers between 0-255, not as `byte` objects). As such, it omits the **padding** and **symbol table** arguments, but is otherwise identical in function and form to `encode`.
 
 ```py
 >>> import basest
 >>>
->>> basest.core.raw_encode(
+>>> basest.core.encode_raw(
 ...     input_base=256, output_base=85,
 ...     input_ratio=4, output_ratio=5,
 ...     input_data=[99, 97, 98, 98, 97, 103, 101, 115]
@@ -93,13 +93,13 @@ Returns the output data as a list of items that are guaranteed to be in the **ou
 ['a', 'b', 'a', 'c', 'u', 's', ' ', 'Z', 'Z', 'Z']
 ```
 
-#### Raw Decode
-Similar to the function above, `basest.core.raw_decode` will decode from one base to another, but only accepts and returns arrays of integers (e.g. base64 would be passed as integers between 0-65 (65 is for the padding symbol), not as `str` objects). As such, it omits the **padding** and **symbol table** arguments, but is otherwise identical in function and form to `decode`.
+#### Decode Raw
+Similar to the function above, `basest.core.decode_raw` will decode from one base to another, but only accepts and returns arrays of integers (e.g. base64 would be passed as integers between 0-65 (65 is for the padding symbol), not as `str` objects). As such, it omits the **padding** and **symbol table** arguments, but is otherwise identical in function and form to `decode`.
 
 ```py
 >>> import basest
 >>>
->>> basest.core.raw_decode(
+>>> basest.core.decode_raw(
 ...     input_base=85, output_base=256,
 ...     input_ratio=5, output_ratio=4,
 ...     input_data=[31, 79, 81, 71, 52, 31, 25, 82, 13, 76]

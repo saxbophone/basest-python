@@ -5,8 +5,8 @@ from __future__ import (
 )
 
 from .best_ratio import best_ratio
-from .decode import decode, raw_decode
-from .encode import encode, raw_encode
+from .decode import decode, decode_raw
+from .encode import encode, encode_raw
 
 
-__all__ = ['best_ratio', 'decode', 'encode', 'raw_decode', 'raw_encode']
+__all__ = ['best_ratio', 'decode', 'decode_raw', 'encode', 'encode_raw']
