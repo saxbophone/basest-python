@@ -4,6 +4,8 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
+from .utils import ints_to_symbols, symbols_to_ints
+
 
 def raw_encode(input_base, output_base, input_ratio, output_ratio, input_data):
     """
@@ -83,13 +85,12 @@ def encode(
     symbol.
     """
     # create workon copy of input data and convert symbols to raw ints
-    before = [input_symbol_table.index(symbol) for symbol in input_data]
+    before = symbols_to_ints(input_data, input_symbol_table)
     # use raw_encode() to encode the data
     output_data = raw_encode(
         input_base=input_base, output_base=output_base,
         input_ratio=input_ratio, output_ratio=output_ratio, input_data=before
     )
-    # assemble output symbol table using given table + padding symbol
-    output_conversion = output_symbol_table + [output_padding]
     # convert raw output data back to symbols using output symbol table
-    return [output_conversion[symbol] for symbol in output_data]
+    # NOTE: output symbol table here includes the padding character
+    return ints_to_symbols(output_data, output_symbol_table + [output_padding])
