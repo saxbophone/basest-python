@@ -4,6 +4,8 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
+from ..core import encode_raw
+
 
 class Encoder(object):
     # set out blank placeholders for class variables
@@ -16,4 +18,12 @@ class Encoder(object):
     output_padding = None
 
     def encode_raw(self, input_data):
-        pass
+        """
+        Encode raw data (no mapping of symbols). Use encode_raw function to
+        actually do the work.
+        """
+        return encode_raw(
+            input_base=self.input_base, output_base=self.output_base,
+            input_ratio=self.input_ratio, output_ratio=self.output_ratio,
+            input_data=input_data
+        )

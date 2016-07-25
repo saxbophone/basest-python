@@ -7,6 +7,7 @@ from __future__ import (
 import unittest
 
 from ddt import data, ddt, unpack
+from mock import patch
 
 from basest.encoders import Encoder
 
@@ -130,12 +131,15 @@ class TestEncoderSubclass(unittest.TestCase):
         Encoder()
 
     @data(
-        (256, 64, 3, 4, [1, 234, 56, 183, 97, 67, 33, 3])
+        (256, 64, 3, 4, [1, 234, 56, 183, 97, 67, 33, 3]),
+        (256, 16, 1, 2, [3, 5, 7, 11, 13, 17, 19, 23, 29])
     )
     @unpack
+    @patch('basest.encoders.encoder.encode_raw')
     def test_encoder_subclass(
         self, input_base, output_base,
-        input_ratio, output_ratio, input_data
+        input_ratio, output_ratio, input_data,
+        m_encode_raw
     ):
         """
         Test that subclasses of Encoder with various different configurations
@@ -152,5 +156,8 @@ class TestEncoderSubclass(unittest.TestCase):
         CustomEncoder().encode_raw(input_data)
 
         # check the library function was called
-        # TODO: Check function was called!
-        pass
+        m_encode_raw.assert_called_once_with(
+            input_base=input_base, output_base=output_base,
+            input_ratio=input_ratio, output_ratio=output_ratio,
+            input_data=input_data
+        )
