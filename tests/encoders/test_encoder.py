@@ -10,6 +10,7 @@ from ddt import data, ddt, unpack
 
 from basest.encoders import Encoder
 
+
 @ddt
 class TestEncoderSubclass(unittest.TestCase):
     maxDiff = None
@@ -37,7 +38,8 @@ class TestEncoderSubclass(unittest.TestCase):
                 else Encoder.input_symbol_table
             )
             output_symbol_table = (
-                kwargs['output_symbol_table'] if 'output_symbol_table' in kwargs
+                kwargs['output_symbol_table']
+                if 'output_symbol_table' in kwargs
                 else Encoder.output_symbol_table
             )
             output_padding = (
@@ -127,31 +129,28 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Encoder()
 
-    # TODO: Add data to this test case with ddt
+    @data(
+        (256, 64, 3, 4, [1, 234, 56, 183, 97, 67, 33, 3])
+    )
+    @unpack
     def test_encoder_subclass(
-        self,
-        input_base, input_symbol_table,
-        output_base, output_symbol_table,
-        output_padding,
-        input_ratio, output_ratio,
-        input_data, expected_output_data
+        self, input_base, output_base,
+        input_ratio, output_ratio, input_data
     ):
         """
         Test that subclasses of Encoder with various different configurations
-        can be created, can encode and decode data according to their formats.
+        can be created, and that Encoder().encode_raw calls basest.core.encode
+        with the correct arguments.
         """
         # create subclass
-        class CustomEncoder(Encoder):
-            input_base = input_base
-            input_symbol_table = input_symbol_table
-            output_base = output_base
-            output_symbol_table = output_symbol_table
-            output_padding = output_padding
-        # create instance of subclass
-        instance = CustomEncoder()
+        CustomEncoder = self.make_custom_encoder_subclass(
+            input_base=input_base, output_base=output_base,
+            input_ratio=input_ratio, output_ratio=output_ratio
+        )
 
-        # encode some data
-        output_data = instance.encode(input_data)
+        # raw instance method encode_raw() with input data
+        CustomEncoder().encode_raw(input_data)
 
-        # check the output
-        self.assertEqual(output_data, expected_output_data)
+        # check the library function was called
+        # TODO: Check function was called!
+        pass

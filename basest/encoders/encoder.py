@@ -14,3 +14,6 @@ class Encoder(object):
     input_symbol_table = None
     output_symbol_table = None
     output_padding = None
+
+    def encode_raw(self, input_data):
+        pass
