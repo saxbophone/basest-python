@@ -136,15 +136,15 @@ class TestEncoderSubclass(unittest.TestCase):
     )
     @unpack
     @patch('basest.encoders.encoder.encode_raw')
-    def test_encoder_subclass(
+    def test_encoder_subclass_encode_raw(
         self, input_base, output_base,
         input_ratio, output_ratio, input_data,
         m_encode_raw
     ):
         """
         Test that subclasses of Encoder with various different configurations
-        can be created, and that Encoder().encode_raw calls basest.core.encode
-        with the correct arguments.
+        can be created, and that Encoder().encode_raw calls
+        basest.core.encode_raw() with the correct arguments.
         """
         # create subclass
         CustomEncoder = self.make_custom_encoder_subclass(
@@ -159,5 +159,37 @@ class TestEncoderSubclass(unittest.TestCase):
         m_encode_raw.assert_called_once_with(
             input_base=input_base, output_base=output_base,
             input_ratio=input_ratio, output_ratio=output_ratio,
+            input_data=input_data
+        )
+
+    @data(
+        (64, 256, 4, 3, [24, 54, 13, 35, 24, 48, 64, 64]),
+        (16, 256, 2, 1, [1, 7, 13, 15, 12, 0, 1, 16])
+    )
+    @unpack
+    @patch('basest.encoders.encoder.decode_raw')
+    def test_encoder_subclass_decode_raw(
+        self, input_base, output_base,
+        input_ratio, output_ratio, input_data,
+        m_decode_raw
+    ):
+        """
+        Test that subclasses of Encoder with various different configurations
+        can be created, and that Encoder().decode_raw calls
+        basest.core.decode_raw() with the correct arguments.
+        """
+        # create subclass
+        CustomEncoder = self.make_custom_encoder_subclass(
+            input_base=input_base, output_base=output_base,
+            input_ratio=input_ratio, output_ratio=output_ratio
+        )
+
+        # raw instance method encode_raw() with input data
+        CustomEncoder().decode_raw(input_data)
+
+        # check the library function was called
+        m_decode_raw.assert_called_once_with(
+            input_base=output_base, output_base=input_base,
+            input_ratio=output_ratio, output_ratio=input_ratio,
             input_data=input_data
         )
