@@ -12,6 +12,18 @@ from mock import patch
 from basest.encoders import Encoder
 
 
+base64_alphabet = [
+    s for s in
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+]
+base93_alphabet = [
+    s for s in
+    '!"#$%&\'()*+,-./0123456789:;<=>?@'
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`'
+    'abcdefghijklmnopqrstuvwxyz{|}'
+]
+
+
 @ddt
 class TestEncoderSubclass(unittest.TestCase):
     maxDiff = None
@@ -190,6 +202,119 @@ class TestEncoderSubclass(unittest.TestCase):
         # check the library function was called
         m_decode_raw.assert_called_once_with(
             input_base=output_base, output_base=input_base,
+            input_ratio=output_ratio, output_ratio=input_ratio,
+            input_data=input_data
+        )
+
+    @data(
+        # Base-64
+        (
+            256, [chr(b) for b in range(256)],
+            64, base64_alphabet,
+            '=', 3, 4,
+            list([c for c in 'cabbages!'])
+        ),
+        # Base-93
+        (
+            256, [chr(b) for b in range(256)],
+            93, base93_alphabet,
+            '~', 94, 115,
+            list(
+                [
+                    c for c in (
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing '
+                        'elit. Duis eget dui non lorem tempus metus.'
+                    )
+                ]
+            )
+        )
+    )
+    @unpack
+    @patch('basest.encoders.encoder.encode')
+    def test_encoder_subclass_encode(
+        self, input_base, input_symbol_table,
+        output_base, output_symbol_table, output_padding,
+        input_ratio, output_ratio, input_data,
+        m_encode
+    ):
+        """
+        Test that subclasses of Encoder with various different configurations
+        can be created, and that Encoder().encode calls basest.core.encode()
+        with the correct arguments.
+        """
+        # create subclass
+        CustomEncoder = self.make_custom_encoder_subclass(
+            input_base=input_base, input_symbol_table=input_symbol_table,
+            output_base=output_base, output_symbol_table=output_symbol_table,
+            output_padding=output_padding,
+            input_ratio=input_ratio, output_ratio=output_ratio
+        )
+
+        # call instance method encode() with input data
+        CustomEncoder().encode(input_data)
+
+        # check the library function was called
+        m_encode.assert_called_once_with(
+            input_base=input_base, input_symbol_table=input_symbol_table,
+            output_base=output_base, output_symbol_table=output_symbol_table,
+            output_padding=output_padding,
+            input_ratio=input_ratio, output_ratio=output_ratio,
+            input_data=input_data
+        )
+
+    @data(
+        # Base-64
+        (
+            64, base64_alphabet,
+            256, [chr(b) for b in range(256)],
+            '=', 4, 3,
+            list([c for c in 'Y2FiYmFnZXMh'])
+        ),
+        # Base-93
+        (
+            93, base93_alphabet,
+            256, [chr(b) for b in range(256)],
+            '~', 115, 94,
+            list(
+                [
+                    c for c in (
+                        '<bScIZn]2oUn]4Jp=gJkWWp|h3[tysL(p:H7$`m*F|FSN+rZ`s4'
+                        '8,R_B:G\'+O8.!+VCj(VNBp</:S!A&W-mA2<rCO5LIAAa+flHJ@'
+                        'yXj^m0VH8"0G9B'
+                    )
+                ]
+            )
+        )
+    )
+    @unpack
+    @patch('basest.encoders.encoder.decode')
+    def test_encoder_subclass_decode(
+        self, input_base, input_symbol_table,
+        output_base, output_symbol_table, output_padding,
+        input_ratio, output_ratio, input_data,
+        m_decode
+    ):
+        """
+        Test that subclasses of Encoder with various different configurations
+        can be created, and that Encoder().decode calls
+        basest.core.decode() with the correct arguments.
+        """
+        # create subclass
+        CustomEncoder = self.make_custom_encoder_subclass(
+            input_base=input_base, input_symbol_table=input_symbol_table,
+            output_padding=output_padding,
+            output_base=output_base, output_symbol_table=output_symbol_table,
+            input_ratio=input_ratio, output_ratio=output_ratio
+        )
+
+        # call instance method decode() with input data
+        CustomEncoder().decode(input_data)
+
+        # check the library function was called
+        m_decode.assert_called_once_with(
+            input_base=output_base, input_symbol_table=output_symbol_table,
+            input_padding=output_padding,
+            output_base=input_base, output_symbol_table=input_symbol_table,
             input_ratio=output_ratio, output_ratio=input_ratio,
             input_data=input_data
         )

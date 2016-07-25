@@ -4,7 +4,7 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
-from ..core import decode_raw, encode_raw
+from ..core import decode, decode_raw, encode, encode_raw
 
 
 class Encoder(object):
@@ -35,6 +35,35 @@ class Encoder(object):
         """
         return decode_raw(
             input_base=self.output_base, output_base=self.input_base,
+            input_ratio=self.output_ratio, output_ratio=self.input_ratio,
+            input_data=input_data
+        )
+
+    def encode(self, input_data):
+        """
+        Encode data. Use encode function to actually do the work.
+        """
+        return encode(
+            input_base=self.input_base,
+            input_symbol_table=self.input_symbol_table,
+            output_base=self.output_base,
+            output_symbol_table=self.output_symbol_table,
+            output_padding=self.output_padding,
+            input_ratio=self.input_ratio, output_ratio=self.output_ratio,
+            input_data=input_data
+        )
+
+
+    def decode(self, input_data):
+        """
+        Decode data. Use decode function to actually do the work.
+        """
+        return decode(
+            input_base=self.output_base,
+            input_symbol_table=self.output_symbol_table,
+            input_padding=self.output_padding,
+            output_base=self.input_base,
+            output_symbol_table=self.input_symbol_table,
             input_ratio=self.output_ratio, output_ratio=self.input_ratio,
             input_data=input_data
         )
