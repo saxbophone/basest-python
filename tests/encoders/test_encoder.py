@@ -152,7 +152,7 @@ class TestEncoderSubclass(unittest.TestCase):
             input_ratio=input_ratio, output_ratio=output_ratio
         )
 
-        # raw instance method encode_raw() with input data
+        # call instance method encode_raw() with input data
         CustomEncoder().encode_raw(input_data)
 
         # check the library function was called
@@ -184,7 +184,7 @@ class TestEncoderSubclass(unittest.TestCase):
             input_ratio=input_ratio, output_ratio=output_ratio
         )
 
-        # raw instance method encode_raw() with input data
+        # call instance method decode_raw() with input data
         CustomEncoder().decode_raw(input_data)
 
         # check the library function was called
