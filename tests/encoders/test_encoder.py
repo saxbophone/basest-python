@@ -55,9 +55,9 @@ class TestEncoderSubclass(unittest.TestCase):
                 if 'output_symbol_table' in kwargs
                 else Encoder.output_symbol_table
             )
-            output_padding = (
-                kwargs['output_padding'] if 'output_padding' in kwargs
-                else Encoder.output_padding
+            padding_symbol = (
+                kwargs['padding_symbol'] if 'padding_symbol' in kwargs
+                else Encoder.padding_symbol
             )
         return CustomEncoder
 
@@ -73,7 +73,7 @@ class TestEncoderSubclass(unittest.TestCase):
             input_base=256, output_base=64, input_ratio=3, output_ratio=4,
             input_symbol_table=[chr(c) for c in range(256)],
             output_symbol_table=rough_base64_alphabet,
-            output_padding='='
+            padding_symbol='='
         )
 
         # check class attributes
@@ -88,7 +88,7 @@ class TestEncoderSubclass(unittest.TestCase):
             custom_class.output_symbol_table, rough_base64_alphabet
         )
         self.assertEqual(
-            custom_class.output_padding, '='
+            custom_class.padding_symbol, '='
         )
 
     def test_make_custom_encoder_subclass_minimum(self):
@@ -233,7 +233,7 @@ class TestEncoderSubclass(unittest.TestCase):
     @patch('basest.encoders.encoder.encode')
     def test_encoder_subclass_encode(
         self, input_base, input_symbol_table,
-        output_base, output_symbol_table, output_padding,
+        output_base, output_symbol_table, padding_symbol,
         input_ratio, output_ratio, input_data,
         m_encode
     ):
@@ -246,7 +246,7 @@ class TestEncoderSubclass(unittest.TestCase):
         CustomEncoder = self.make_custom_encoder_subclass(
             input_base=input_base, input_symbol_table=input_symbol_table,
             output_base=output_base, output_symbol_table=output_symbol_table,
-            output_padding=output_padding,
+            padding_symbol=padding_symbol,
             input_ratio=input_ratio, output_ratio=output_ratio
         )
 
@@ -257,7 +257,7 @@ class TestEncoderSubclass(unittest.TestCase):
         m_encode.assert_called_once_with(
             input_base=input_base, input_symbol_table=input_symbol_table,
             output_base=output_base, output_symbol_table=output_symbol_table,
-            output_padding=output_padding,
+            output_padding=padding_symbol,
             input_ratio=input_ratio, output_ratio=output_ratio,
             input_data=input_data
         )
@@ -290,7 +290,7 @@ class TestEncoderSubclass(unittest.TestCase):
     @patch('basest.encoders.encoder.decode')
     def test_encoder_subclass_decode(
         self, input_base, input_symbol_table,
-        output_base, output_symbol_table, output_padding,
+        output_base, output_symbol_table, padding_symbol,
         input_ratio, output_ratio, input_data,
         m_decode
     ):
@@ -302,7 +302,7 @@ class TestEncoderSubclass(unittest.TestCase):
         # create subclass
         CustomEncoder = self.make_custom_encoder_subclass(
             input_base=input_base, input_symbol_table=input_symbol_table,
-            output_padding=output_padding,
+            padding_symbol=padding_symbol,
             output_base=output_base, output_symbol_table=output_symbol_table,
             input_ratio=input_ratio, output_ratio=output_ratio
         )
@@ -313,7 +313,7 @@ class TestEncoderSubclass(unittest.TestCase):
         # check the library function was called
         m_decode.assert_called_once_with(
             input_base=output_base, input_symbol_table=output_symbol_table,
-            input_padding=output_padding,
+            input_padding=padding_symbol,
             output_base=input_base, output_symbol_table=input_symbol_table,
             input_ratio=output_ratio, output_ratio=input_ratio,
             input_data=input_data

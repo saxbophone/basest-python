@@ -15,7 +15,7 @@ class Encoder(object):
     output_ratio = None
     input_symbol_table = None
     output_symbol_table = None
-    output_padding = None
+    padding_symbol = None
 
     def encode_raw(self, input_data):
         """
@@ -48,7 +48,7 @@ class Encoder(object):
             input_symbol_table=self.input_symbol_table,
             output_base=self.output_base,
             output_symbol_table=self.output_symbol_table,
-            output_padding=self.output_padding,
+            output_padding=self.padding_symbol,
             input_ratio=self.input_ratio, output_ratio=self.output_ratio,
             input_data=input_data
         )
@@ -61,7 +61,7 @@ class Encoder(object):
         return decode(
             input_base=self.output_base,
             input_symbol_table=self.output_symbol_table,
-            input_padding=self.output_padding,
+            input_padding=self.padding_symbol,
             output_base=self.input_base,
             output_symbol_table=self.input_symbol_table,
             input_ratio=self.output_ratio, output_ratio=self.input_ratio,
