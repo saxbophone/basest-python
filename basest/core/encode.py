@@ -74,8 +74,9 @@ def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
 
 
 def encode(
-    input_base, input_symbol_table, output_base, output_symbol_table,
-    output_padding, input_ratio, output_ratio, input_data
+    input_base, input_symbol_table,
+    output_base, output_symbol_table, output_padding,
+    input_ratio, output_ratio, input_data
 ):
     """
     Given input and output bases, ratios, symbol tables, the padding symbol
