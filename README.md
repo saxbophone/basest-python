@@ -34,7 +34,72 @@ This library is designed to work with the following **CPython** versions: **2.7.
 `pip install git+git://github.com/saxbophone/basest-python`
 
 ## Usage
-Here is a short overview of the functions defined in this library, where to import them from and how to use them.
+Here is a short overview of the interfaces defined in this library, where to import them from and how to use them.
+
+There is a functional interface and a class-based interface (the class-based one piggy-backs on the functional one, but will also be used to add additional features in the future).
+
+### Class-based Interface
+
+To use the class-based interface, you will need to create a subclass of `basest.encoders.Encoder` and override attributes of the class, as shown below (using base64 as an example):
+
+```py
+>>> from basest.encoders import Encoder
+>>> 
+>>> class CustomEncoder(Encoder):
+...     input_base = 256
+...     output_base = 64
+...     input_ratio = 3
+...     output_ratio = 4
+...     # these attributes are only required if using decode() and encode()
+...     input_symbol_table = [chr(c) for c in range(256)]
+...     output_symbol_table = [
+...         s for s in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+...     ]
+...     padding_symbol = '='
+>>> 
+```
+
+> **Note:** You must subclass `Encoder`, you cannot use it directly!
+
+Subclasses of `Encoder` have the following public methods available:
+
+#### Encode from one base to another
+`encode()` will encode an iterable of symbols in the class' **input symbol table** into an iterable of symbols in the class' **output symbol table**, observing the chosen encoding ratios and padding symbol.
+
+```py
+>>> encoder = CustomEncoder()
+>>> encoder.encode(['c', 'a', 'b', 'b', 'a', 'g', 'e', 's'])
+['Y', '2', 'F', 'i', 'Y', 'm', 'F', 'n', 'Z', 'X', 'M', '=']
+```
+
+#### Encode Raw
+`encode_raw()` works just like `encode()`, except that symbols are not interpreted. Instead, plain integers within range 0->(base - 1) should be used. the value of the base is used as the padding symbol.
+
+```py
+>>> encoder = CustomEncoder()
+>>> encoder.encode_raw([1, 2, 3, 4, 5, 6, 7])
+[0, 16, 8, 3, 1, 0, 20, 6, 1, 48, 64, 64]
+```
+
+#### Decode from one base to another
+`decode()` works in the exact same way as `encode()`, but in the inverse.
+
+```py
+>>> encoder = CustomEncoder()
+>>> encoder.decode(['Y', '2', 'F', 'i', 'Y', 'm', 'F', 'n', 'Z', 'X', 'M', '='])
+['c', 'a', 'b', 'b', 'a', 'g', 'e', 's']
+```
+
+#### Decode Raw
+`decode_raw()` works just like `decode()`, except that symbols are not interpreted. Instead, plain integers within range 0->(base - 1) should be used. the value of the base is used as the padding symbol.
+
+```py
+>>> encoder = CustomEncoder()
+>>> encoder.decode_raw([0, 16, 8, 3, 1, 0, 20, 6, 1, 48, 64, 64])
+[1, 2, 3, 4, 5, 6, 7]
+```
+
+### Functional Interface
 
 #### Encode from one base to another (where the encoding ratios to use are known)
 For a given **input base**, **input symbol table**, **output base**, **output symbol table**, **output padding**, **input ratio**, **output ratio** and the **input data** (as an iterable composed of items which are defined in **input symbol table**):
