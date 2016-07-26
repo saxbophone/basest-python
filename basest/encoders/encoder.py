@@ -53,7 +53,6 @@ class Encoder(object):
             input_data=input_data
         )
 
-
     def decode(self, input_data):
         """
         Decode data. Use decode function to actually do the work.
