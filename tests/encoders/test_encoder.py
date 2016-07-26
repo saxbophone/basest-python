@@ -156,8 +156,11 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().encode_raw calls
-        basest.core.encode_raw() with the correct arguments.
+        basest.core.encode_raw() with the correct arguments, and returns what
+        that function returns.
         """
+        # mock return value of encode_raw
+        m_encode_raw.return_value = 'fish'
         # create subclass
         CustomEncoder = self.make_custom_encoder_subclass(
             input_base=input_base, output_base=output_base,
@@ -165,7 +168,7 @@ class TestEncoderSubclass(unittest.TestCase):
         )
 
         # call instance method encode_raw() with input data
-        CustomEncoder().encode_raw(input_data)
+        result = CustomEncoder().encode_raw(input_data)
 
         # check the library function was called
         m_encode_raw.assert_called_once_with(
@@ -173,6 +176,8 @@ class TestEncoderSubclass(unittest.TestCase):
             input_ratio=input_ratio, output_ratio=output_ratio,
             input_data=input_data
         )
+        # check that the method returned whatever the function did
+        self.assertEqual(result, m_encode_raw.return_value)
 
     @data(
         (64, 256, 4, 3, [24, 54, 13, 35, 24, 48, 64, 64]),
@@ -188,8 +193,11 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().decode_raw calls
-        basest.core.decode_raw() with the correct arguments.
+        basest.core.decode_raw() with the correct arguments, and returns what
+        that function returns.
         """
+        # mock return value of decode_raw
+        m_decode_raw.return_value = 'boat'
         # create subclass
         CustomEncoder = self.make_custom_encoder_subclass(
             input_base=input_base, output_base=output_base,
@@ -197,7 +205,7 @@ class TestEncoderSubclass(unittest.TestCase):
         )
 
         # call instance method decode_raw() with input data
-        CustomEncoder().decode_raw(input_data)
+        result = CustomEncoder().decode_raw(input_data)
 
         # check the library function was called
         m_decode_raw.assert_called_once_with(
@@ -205,6 +213,8 @@ class TestEncoderSubclass(unittest.TestCase):
             input_ratio=output_ratio, output_ratio=input_ratio,
             input_data=input_data
         )
+        # check that the method returned whatever the function did
+        self.assertEqual(result, m_decode_raw.return_value)
 
     @data(
         # Base-64
@@ -240,8 +250,10 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().encode calls basest.core.encode()
-        with the correct arguments.
+        with the correct arguments, and returns what that function returns.
         """
+        # mock return value of encode
+        m_encode.return_value = 'Albatross'
         # create subclass
         CustomEncoder = self.make_custom_encoder_subclass(
             input_base=input_base, input_symbol_table=input_symbol_table,
@@ -251,7 +263,7 @@ class TestEncoderSubclass(unittest.TestCase):
         )
 
         # call instance method encode() with input data
-        CustomEncoder().encode(input_data)
+        result = CustomEncoder().encode(input_data)
 
         # check the library function was called
         m_encode.assert_called_once_with(
@@ -261,6 +273,8 @@ class TestEncoderSubclass(unittest.TestCase):
             input_ratio=input_ratio, output_ratio=output_ratio,
             input_data=input_data
         )
+        # check that the method returned whatever the function did
+        self.assertEqual(result, m_encode.return_value)
 
     @data(
         # Base-64
@@ -297,8 +311,11 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().decode calls
-        basest.core.decode() with the correct arguments.
+        basest.core.decode() with the correct arguments, and returns what that
+        function returns.
         """
+        # mock return value of decode
+        m_decode.return_value = 'Vauxhall'
         # create subclass
         CustomEncoder = self.make_custom_encoder_subclass(
             input_base=input_base, input_symbol_table=input_symbol_table,
@@ -308,7 +325,7 @@ class TestEncoderSubclass(unittest.TestCase):
         )
 
         # call instance method decode() with input data
-        CustomEncoder().decode(input_data)
+        result = CustomEncoder().decode(input_data)
 
         # check the library function was called
         m_decode.assert_called_once_with(
@@ -318,3 +335,5 @@ class TestEncoderSubclass(unittest.TestCase):
             input_ratio=output_ratio, output_ratio=input_ratio,
             input_data=input_data
         )
+        # check that the method returned whatever the function did
+        self.assertEqual(result, m_decode.return_value)
