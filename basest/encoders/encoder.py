@@ -22,7 +22,7 @@ class Encoder(object):
         Encode raw data (no mapping of symbols). Use encode_raw function to
         actually do the work.
         """
-        encode_raw(
+        return encode_raw(
             input_base=self.input_base, output_base=self.output_base,
             input_ratio=self.input_ratio, output_ratio=self.output_ratio,
             input_data=input_data
@@ -33,7 +33,7 @@ class Encoder(object):
         Decode raw data (no mapping of symbols). Use decode_raw function to
         actually do the work.
         """
-        decode_raw(
+        return decode_raw(
             input_base=self.output_base, output_base=self.input_base,
             input_ratio=self.output_ratio, output_ratio=self.input_ratio,
             input_data=input_data
@@ -43,7 +43,7 @@ class Encoder(object):
         """
         Encode data. Use encode function to actually do the work.
         """
-        encode(
+        return encode(
             input_base=self.input_base,
             input_symbol_table=self.input_symbol_table,
             output_base=self.output_base,
@@ -57,7 +57,7 @@ class Encoder(object):
         """
         Decode data. Use decode function to actually do the work.
         """
-        decode(
+        return decode(
             input_base=self.output_base,
             input_symbol_table=self.output_symbol_table,
             input_padding=self.padding_symbol,

@@ -156,7 +156,8 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().encode_raw calls
-        basest.core.encode_raw() with the correct arguments.
+        basest.core.encode_raw() with the correct arguments, and returns what
+        that function returns.
         """
         # mock return value of encode_raw
         m_encode_raw.return_value = 'fish'
@@ -192,7 +193,8 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().decode_raw calls
-        basest.core.decode_raw() with the correct arguments.
+        basest.core.decode_raw() with the correct arguments, and returns what
+        that function returns.
         """
         # mock return value of decode_raw
         m_decode_raw.return_value = 'boat'
@@ -248,7 +250,7 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().encode calls basest.core.encode()
-        with the correct arguments.
+        with the correct arguments, and returns what that function returns.
         """
         # mock return value of encode
         m_encode.return_value = 'Albatross'
@@ -309,7 +311,8 @@ class TestEncoderSubclass(unittest.TestCase):
         """
         Test that subclasses of Encoder with various different configurations
         can be created, and that Encoder().decode calls
-        basest.core.decode() with the correct arguments.
+        basest.core.decode() with the correct arguments, and returns what that
+        function returns.
         """
         # mock return value of decode
         m_decode.return_value = 'Vauxhall'
