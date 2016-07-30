@@ -28,9 +28,9 @@ def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     base85/ascii85 decoding and does not negatively impact 'perfect' aligning
     bases such as base64.
     '''
-    anomalous = (input_base - 1) if input_base > output_base else 0
+    anomalous = (input_base - 1) if input_base <= output_base else 48 | 64
     input_workon = [
-        (s if s != input_base else input_base - 1) for s in input_workon
+        (s if s != input_base else anomalous) for s in input_workon
     ]
     # use the encode_raw function to convert the data
     output_data = encode_raw(
