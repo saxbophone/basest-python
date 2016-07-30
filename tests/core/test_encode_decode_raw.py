@@ -85,7 +85,9 @@ class TestEncodeDecodeRaw(unittest.TestCase):
         # Base-85 - no padding required
         (256, 85, 4, 5, [99, 97, 98, 98, 97, 103, 101, 115]),
         # Base-85 - padding is required
-        (256, 85, 4, 5, [43, 42, 41, 40, 39])
+        (256, 85, 4, 5, [43, 42, 41, 40, 39]),
+        # Base-128 to Base-256, output base is larger
+        (128, 256, 8, 7, [69, 97, 101, 100, 101, 97, 83, 97])
     )
     @unpack
     def test_encode_decode_raw(
