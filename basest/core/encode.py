@@ -17,9 +17,9 @@ def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     output would be in the range 0-63).
     """
     # create a 'workon' copy of the input data so we don't end up changing it
-    before = list(input_data)
+    input_workon = list(input_data)
     # store length of input data for future reference
-    input_length = len(before)
+    input_length = len(input_workon)
     # calculate the amount of overlap (if any)
     overlap = input_length % input_ratio
     '''
@@ -43,13 +43,13 @@ def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     # create a new list for the output data
     output_data = [0] * output_length
     # extend the input_data to the nearest divisible length (for padding)
-    before.extend([0] * padding_length)
+    input_workon.extend([0] * padding_length)
     # encode the data - store each group of input_ratio symbols in a number
     for i in range(0, input_nearest_length, input_ratio):
         store = 0
         for j in range(0, input_ratio):
             # store value of symbol
-            symbol = before[i + j]
+            symbol = input_workon[i + j]
             # upscale it if neccessary, in a little-endian manner
             symbol *= (input_base ** (input_ratio - j - 1))
             # add to store
@@ -86,11 +86,12 @@ def encode(
     symbol.
     """
     # create workon copy of input data and convert symbols to raw ints
-    before = symbols_to_ints(input_data, input_symbol_table)
+    input_workon = symbols_to_ints(input_data, input_symbol_table)
     # use encode_raw() to encode the data
     output_data = encode_raw(
         input_base=input_base, output_base=output_base,
-        input_ratio=input_ratio, output_ratio=output_ratio, input_data=before
+        input_ratio=input_ratio, output_ratio=output_ratio,
+        input_data=input_workon
     )
     # convert raw output data back to symbols using output symbol table
     # NOTE: output symbol table here includes the padding character
