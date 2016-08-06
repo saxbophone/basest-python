@@ -7,6 +7,20 @@ from __future__ import (
 from .utils import ints_to_symbols, symbols_to_ints
 
 
+def nearest_length(input_length, input_ratio):
+    """
+    Returns the nearest data length from the input data that is divisible by
+    the input ratio, using overlap if there is any.
+    """
+    # calculate the amount of overlap (if any)
+    overlap = input_length % input_ratio
+    # calculate the nearest input length that can contain our length
+    return (
+        input_length if overlap == 0
+        else ((((input_length - overlap) // input_ratio) + 1) * input_ratio)
+    )
+
+
 def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     """
     Given an input base, an output base, input ratio, output ratio and input
@@ -20,22 +34,8 @@ def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     input_workon = list(input_data)
     # store length of input data for future reference
     input_length = len(input_workon)
-    # calculate the amount of overlap (if any)
-    overlap = input_length % input_ratio
-    '''
-    get the nearest data length from the input data that is divisible by
-    the input ratio, using overlap if there is any
-    '''
-    input_nearest_length = (
-        input_length if overlap == 0
-        else (
-            (
-                (
-                    (input_length - overlap) // input_ratio
-                ) + 1
-            ) * input_ratio
-        )
-    )
+    # get nearest data length that the input data fits in
+    input_nearest_length = nearest_length(input_length, input_ratio)
     # calculate the amount of padding needed
     padding_length = (input_nearest_length - input_length)
     # get the output length, based on nearest divisible input length
