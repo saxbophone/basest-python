@@ -18,9 +18,9 @@ def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     base64 input would be in the range 0-63).
     """
     # create a 'workon' copy of the input data so we don't end up changing it
-    before = list(input_data)
+    input_workon = list(input_data)
     # count number of padding symbols
-    padding_length = before.count(input_base)
+    padding_length = input_workon.count(input_base)
     # now, replace all padding symbols with the maximmum symbol
     '''
     Explanation: This solution is for bases that don't match up exactly, given
@@ -28,11 +28,14 @@ def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     base85/ascii85 decoding and does not negatively impact 'perfect' aligning
     bases such as base64.
     '''
-    before = [(s if s != input_base else input_base - 1) for s in before]
+    input_workon = [
+        (s if s != input_base else input_base - 1) for s in input_workon
+    ]
     # use the encode_raw function to convert the data
     output_data = encode_raw(
         input_base=input_base, output_base=output_base,
-        input_ratio=input_ratio, output_ratio=output_ratio, input_data=before
+        input_ratio=input_ratio, output_ratio=output_ratio,
+        input_data=input_workon
     )
     # strip off the unnecessary padding symbols if there was padding
     [output_data.pop() for _ in range(padding_length)]
@@ -53,11 +56,14 @@ def decode(
     """
     # create workon copy of input data and convert symbols to raw ints
     # NOTE: input symbol table here includes the padding character
-    before = symbols_to_ints(input_data, input_symbol_table + [input_padding])
+    input_workon = symbols_to_ints(
+        input_data, input_symbol_table + [input_padding]
+    )
     # use decode_raw() to decode the data
     output_data = decode_raw(
         input_base=input_base, output_base=output_base,
-        input_ratio=input_ratio, output_ratio=output_ratio, input_data=before
+        input_ratio=input_ratio, output_ratio=output_ratio,
+        input_data=input_workon
     )
     # convert raw output data back to symbols using output symbol table
     return ints_to_symbols(output_data, output_symbol_table)
