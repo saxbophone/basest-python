@@ -58,15 +58,15 @@ def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
         now that store contains the value of a number of symbols, separate this
         out to the output symbols
         '''
-        for j in range(0, output_ratio):
+        for k in range(0, output_ratio):
             # convert output array index
-            index = ((i // input_ratio) * output_ratio) + j
+            index = ((i // input_ratio) * output_ratio) + k
             # re-interpret the number in terms of output base
-            symbol = store // (output_base ** (output_ratio - j - 1))
+            symbol = store // (output_base ** (output_ratio - k - 1))
             # store at the calculated position
             output_data[index] = symbol
             # decrement the store variable, having now encoded part of it
-            store -= (symbol * (output_base ** (output_ratio - j - 1)))
+            store -= (symbol * (output_base ** (output_ratio - k - 1)))
     # set padding bytes to padding symbol, if needed
     for i in range(output_length - padding_length, output_length):
         output_data[i] = output_base
