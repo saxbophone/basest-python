@@ -90,6 +90,8 @@ class TestEncodeDecodeRaw(unittest.TestCase):
         (128, 256, 8, 7, [69, 97, 101, 100, 101, 97, 83, 97]),
         # Same as above, but requires padding
         (128, 256, 8, 7, [69, 97, 101, 100, 101, 97]),
+        # Base 8 to base 15 - ratios are inequal and require padding
+        (8, 15, 3, 2, [0, 1, 2, 3, 4, 5, 6, 7, 7]),
         # Base-128 to Base-255, ratios are inequal, output base is larger
         (128, 255, 9, 8, [69, 97, 101, 100, 101, 97, 83, 97, 97]),
         # Same as above, but requires padding
