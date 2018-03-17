@@ -18,7 +18,7 @@ def _encoding_ratio(base_from, base_to, chunk_sizes):
     best_ratio = (1.0, INF)
     for s in chunk_sizes:
         match = ceil(log(base_from ** s, base_to))
-        ratio = (float(s), match)
+        ratio = (s, match)
         if (ratio[0] / ratio[1]) > (best_ratio[0] / best_ratio[1]):
             best_ratio = ratio
     return (int(best_ratio[0]), int(best_ratio[1]))
@@ -34,10 +34,7 @@ def best_ratio(input_base, output_bases, chunk_sizes):
     best_ratio = (1.0, INF)
     for base_to in output_bases:
         ratio = _encoding_ratio(input_base, base_to, chunk_sizes)
-        if (
-            (float(ratio[0]) / float(ratio[1])) >
-            (float(best_ratio[0]) / float(best_ratio[1]))
-        ):
+        if ((ratio[0] / ratio[1]) > (best_ratio[0] / best_ratio[1])):
             best_ratio = ratio
             encoder = base_to
     return encoder, (int(best_ratio[0]), int(best_ratio[1]))
