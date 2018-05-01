@@ -12,6 +12,8 @@ It is also not just 8-bit binary data that could be serialised. Any collection o
 
 This library is my implementation of a generic, base-to-base converter which addresses this last point. An encoder and decoder for every binary-to-text format currently existing can be created and used with this library, requiring only for the details of the desired format to be given. Due to its flexibility, the library also makes it trivial to invent new wonderful and interesting base-to-base serialisation/conversion formats (I myself plan to work on and release one that translates binary files into a purely emoji-based format!).
 
+One limitation of the library is that it cannot encode data from a smaller input base to a larger output base with padding on the input (i.e. if you're encoding from base 2 to base 1000, you need to ensure that the number of input symbols exactly matches the encoding ratio you're using). This is an accepted limitation due to the complexities of implementing a padding system that works in the same manner as base-64 and others but which can be extended to any arbitrary base.
+
 So, I hope you find this library fun, useful or both!
 
 ## Installation
