@@ -48,6 +48,19 @@ class TestEncodeDecodeRaw(unittest.TestCase):
 
         self.assertEqual(output_data, expected_output_data)
 
+    @data(str, bool, float, bytes)
+    def test_encode_raw_invalid_inputs(self, data_type):
+        """
+        Any non-integer types (or lists of non-integers) passed to the function
+        should raise TypeError.
+        """
+        with self.assertRaises(TypeError):
+            encode_raw(
+                input_base=data_type(), output_base=data_type(),
+                input_ratio=data_type(), output_ratio=data_type(),
+                input_data=data_type()
+            )
+
     @data(
         # Base-85 - no padding
         (
@@ -80,6 +93,19 @@ class TestEncodeDecodeRaw(unittest.TestCase):
         )
 
         self.assertEqual(output_data, expected_output_data)
+
+    @data(str, bool, float, bytes)
+    def test_decode_raw_invalid_inputs(self, data_type):
+        """
+        Any non-integer types (or lists of non-integers) passed to the function
+        should raise TypeError.
+        """
+        with self.assertRaises(TypeError):
+            decode_raw(
+                input_base=data_type(), output_base=data_type(),
+                input_ratio=data_type(), output_ratio=data_type(),
+                input_data=data_type()
+            )
 
     @data(
         # Base-85 - no padding required

@@ -33,3 +33,12 @@ class TestBestRatio(unittest.TestCase):
         self.assertEqual(
             best_ratio(input_base, output_bases, chunk_sizes), expected
         )
+
+    @data(str, bool, float, bytes)
+    def test_invalid_inputs(self, data_type):
+        """
+        Any non-integer types (or lists of non-integers) passed to the function
+        should raise TypeError.
+        """
+        with self.assertRaises(TypeError):
+            best_ratio(data_type(), [data_type()], [data_type()])
