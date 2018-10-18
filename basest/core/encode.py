@@ -34,6 +34,17 @@ def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     input_workon = list(input_data)
     # store length of input data for future reference
     input_length = len(input_workon)
+    '''
+    Special validation: if the output base is larger than the input base, then
+    the length of the input data MUST be an exact multiple of the input ratio.
+    Otherwise, the data will be corrupted if we continue, so we will raise
+    ValueError instead.
+    '''
+    if input_base < output_base and input_length % input_ratio != 0:
+        raise ValueError(
+            'Input data length must be exact multiple of input ratio when '
+            'output base is larger than input base'
+        )
     # get nearest data length that the input data fits in
     input_nearest_length = _nearest_length(input_length, input_ratio)
     # calculate the amount of padding needed
