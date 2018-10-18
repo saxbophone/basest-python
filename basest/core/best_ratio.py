@@ -17,6 +17,9 @@ def _encoding_ratio(base_from, base_to, chunk_sizes):
     """
     best_ratio = (1.0, INF)
     for s in chunk_sizes:
+        # validate each chunk size here
+        if not isinstance(s, int):
+            raise TypeError('chunk sizes must be list of ints')
         match = ceil(log(base_from ** s, base_to))
         ratio = (float(s), match)
         if (ratio[0] / ratio[1]) > (best_ratio[0] / best_ratio[1]):
@@ -30,9 +33,16 @@ def best_ratio(input_base, output_bases, chunk_sizes):
     sizes, find the most efficient encoding ratio.
     Returns the chosen output base, and the chosen encoding ratio.
     """
+    # validate input base type
+    if not isinstance(input_base, int):
+        raise TypeError('input base must be of int type')
+
     encoder = 0
     best_ratio = (1.0, INF)
     for base_to in output_bases:
+        # validate each output base here
+        if not isinstance(base_to, int):
+            raise TypeError('output bases must be list of ints')
         ratio = _encoding_ratio(input_base, base_to, chunk_sizes)
         if (
             (float(ratio[0]) / float(ratio[1])) >
