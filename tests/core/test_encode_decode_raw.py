@@ -62,6 +62,34 @@ class TestEncodeDecodeRaw(unittest.TestCase):
             )
 
     @data(
+        (94, 256, 10, 9, [1, 2, 3, 4, 5]),
+        (94, 256, 10, 9, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]),
+        (78, 256, 20, 16, [70]),
+        (78, 256, 20, 16, [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60])
+    )
+    @unpack
+    def test_encode_raw_invalid_input_ratio(
+        self,
+        input_base, output_base,
+        input_ratio, output_ratio,
+        input_data
+    ):
+        """
+        When encoding from a smaller base to a larger one, it is impossible to
+        encode input if the number of symbols is not an exact multiple of the
+        input ratio. This is because such an action normally can be solved with
+        padding, however padding can only be used successfully on the 'smaller'
+        side of the transformation, in any other case data corruption occurs.
+        If this is attempted, then ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            encode_raw(
+                input_base=input_base, output_base=output_base,
+                input_ratio=input_ratio, output_ratio=output_ratio,
+                input_data=input_data
+            )
+
+    @data(
         # Base-85 - no padding
         (
             85, 256, 5, 4,
@@ -111,7 +139,13 @@ class TestEncodeDecodeRaw(unittest.TestCase):
         # Base-85 - no padding required
         (256, 85, 4, 5, [99, 97, 98, 98, 97, 103, 101, 115]),
         # Base-85 - padding is required
-        (256, 85, 4, 5, [43, 42, 41, 40, 39])
+        (256, 85, 4, 5, [43, 42, 41, 40, 39]),
+        # Base-94 to Base-256 --the 'wrong' way round, but it is valid as long
+        # as the input data is a multiple of the input_ratio size.
+        # Otherwise, padding-related errors occur (because padding happens on
+        # the 'smaller' side of the transformation only).
+        (94, 256, 10, 9, [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]),
+        (94, 256, 10, 9, [93, 88, 77, 66, 55, 44, 33, 22, 11, 0])
     )
     @unpack
     def test_encode_decode_raw(
