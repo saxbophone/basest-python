@@ -4,7 +4,7 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
-from .utils import ints_to_symbols, symbols_to_ints
+from .utils import ints_to_symbols, symbol_table_is_unique, symbols_to_ints
 
 
 def _nearest_length(input_length, input_ratio):
@@ -96,6 +96,12 @@ def encode(
     Uses standard base64-style padding if needed, using the given padding
     symbol.
     """
+    # validate the uniqueness of both symbol tables before continuing
+    if (
+        (not symbol_table_is_unique(input_symbol_table)) or
+        (not symbol_table_is_unique(output_symbol_table, output_padding))
+    ):
+        raise ValueError('Unique symbol tables required')
     # create workon copy of input data and convert symbols to raw ints
     input_workon = symbols_to_ints(input_data, input_symbol_table)
     # use encode_raw() to encode the data
