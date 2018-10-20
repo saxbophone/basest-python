@@ -33,3 +33,21 @@ def symbol_table_is_unique(symbol_table, padding_symbol=None):
         # otherwise, check that padding_symbol isn't in the symbol table
         # NOTE: this assumes that `None` is never in the symbol table
         return padding_symbol not in symbol_table
+
+
+def validate_symbol_tables(symbol_table, padding_symbol, other_symbol_table):
+    """
+    Validates two symbol tables (the padding symbol being used alongside the
+    first one).
+    Raises ValueError if either of the symbol tables (or padding symbol) fail
+    validation.
+    """
+    if None in (symbol_table + [padding_symbol] + other_symbol_table):
+        raise ValueError(
+            'None cannot be used in symbol tables nor for padding'
+        )
+    elif (
+        (not symbol_table_is_unique(symbol_table, padding_symbol)) or
+        (not symbol_table_is_unique(other_symbol_table))
+    ):
+        raise ValueError('Unique symbol tables required')

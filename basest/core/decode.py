@@ -5,7 +5,7 @@ from __future__ import (
 )
 
 from .encode import encode_raw
-from .utils import ints_to_symbols, symbol_table_is_unique, symbols_to_ints
+from .utils import ints_to_symbols, symbols_to_ints, validate_symbol_tables
 
 
 def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
@@ -54,12 +54,12 @@ def decode(
     Assumes standard base64-style padding using the given input padding symbol,
     but can handle unpadded input just fine.
     """
-    # validate the uniqueness of both symbol tables before continuing
-    if (
-        (not symbol_table_is_unique(input_symbol_table, input_padding)) or
-        (not symbol_table_is_unique(output_symbol_table))
-    ):
-        raise ValueError('Unique symbol tables required')
+    # validate both symbol tables and the padding symbol before continuing
+    validate_symbol_tables(
+        input_symbol_table,
+        input_padding,
+        output_symbol_table
+    )
     # create workon copy of input data and convert symbols to raw ints
     # NOTE: input symbol table here includes the padding character
     input_workon = symbols_to_ints(
