@@ -128,6 +128,65 @@ class TestEncodeDecode(unittest.TestCase):
         self.assertEqual(output_data, expected_output_data)
 
     @data(
+        (list('abcd'), list('ccccc'), '1'),
+        (list('!!!!!'), list('abcdef'), '#')
+    )
+    @unpack
+    def test_encode_rejects_non_unique_symbol_tables(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When a non-unique input or output symbol table is passed to encode(),
+        ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            encode(
+                len(input_symbol_table), input_symbol_table,
+                len(output_symbol_table), output_symbol_table,
+                padding_symbol,
+                1, 1,
+                []
+            )
+
+    def test_encode_rejects_output_symbol_table_containing_padding_symbol(
+        self
+    ):
+        """
+        When the output symbol table passed to encode() contains the padding
+        symbol, ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            encode(1, ['a'], 1, ['b'], 'b', 1, 1, [])
+
+    @data(
+        (list('abcd'), list('efghijk'), None),
+        (list('1234'), [1, 2, 3, None], '#'),
+        ([None, 2, 3, 4], list('cabuges'), '#')
+    )
+    @unpack
+    def test_encode_rejects_none_used_in_symbol_tables_and_padding(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When any of the symbol tables or the padding symbol passed to encode()
+        are or contain None, ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            encode(
+                len(input_symbol_table), input_symbol_table,
+                len(output_symbol_table), output_symbol_table,
+                padding_symbol,
+                1, 1,
+                []
+            )
+
+    @data(
         # Base-64, using most common alphabet - no padding
         (
             64, base64_alphabet,
@@ -221,6 +280,65 @@ class TestEncodeDecode(unittest.TestCase):
         )
 
         self.assertEqual(output_data, expected_output_data)
+
+    @data(
+        (list('abcd'), list('ccccc'), '1'),
+        (list('!!!!!'), list('abcdef'), '#')
+    )
+    @unpack
+    def test_decode_rejects_non_unique_symbol_tables(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When a non-unique input or output symbol table is passed to decode(),
+        ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            decode(
+                len(input_symbol_table), input_symbol_table,
+                padding_symbol,
+                len(output_symbol_table), output_symbol_table,
+                1, 1,
+                []
+            )
+
+    def test_decode_rejects_input_symbol_table_containing_padding_symbol(
+        self
+    ):
+        """
+        When the input symbol table passed to decode() contains the padding
+        symbol, ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            decode(1, ['a'], 'a', 1, ['b'], 1, 1, [])
+
+    @data(
+        (list('abcd'), list('efghijk'), None),
+        (list('1234'), [1, 2, 3, None], '#'),
+        ([None, 2, 3, 4], list('cabuges'), '#')
+    )
+    @unpack
+    def test_decode_rejects_none_used_in_symbol_tables_and_padding(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When any of the symbol tables or the padding symbol passed to decode()
+        are or contain None, ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            decode(
+                len(input_symbol_table), input_symbol_table,
+                padding_symbol,
+                len(output_symbol_table), output_symbol_table,
+                1, 1,
+                []
+            )
 
     @data(
         # Base-64, using most common alphabet with no padding needed
