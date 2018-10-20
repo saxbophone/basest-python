@@ -128,6 +128,30 @@ class TestEncodeDecode(unittest.TestCase):
         self.assertEqual(output_data, expected_output_data)
 
     @data(
+        (list('abcd'), list('ccccc'), '1'),
+        (list('!!!!!'), list('abcdef'), '#')
+    )
+    @unpack
+    def test_encode_rejects_non_unique_symbol_tables(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When a non-unique input or output symbol table is passed to encode(),
+        ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            encode(
+                len(input_symbol_table), input_symbol_table,
+                len(output_symbol_table), output_symbol_table,
+                padding_symbol,
+                1, 1,
+                []
+            )
+
+    @data(
         # Base-64, using most common alphabet - no padding
         (
             64, base64_alphabet,
@@ -221,6 +245,30 @@ class TestEncodeDecode(unittest.TestCase):
         )
 
         self.assertEqual(output_data, expected_output_data)
+
+    @data(
+        (list('abcd'), list('ccccc'), '1'),
+        (list('!!!!!'), list('abcdef'), '#')
+    )
+    @unpack
+    def test_decode_rejects_non_unique_symbol_tables(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When a non-unique input or output symbol table is passed to decode(),
+        ValueError should be raised.
+        """
+        with self.assertRaises(ValueError):
+            decode(
+                len(input_symbol_table), input_symbol_table,
+                padding_symbol,
+                len(output_symbol_table), output_symbol_table,
+                1, 1,
+                []
+            )
 
     @data(
         # Base-64, using most common alphabet with no padding needed
