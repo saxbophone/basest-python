@@ -23,15 +23,22 @@ def _encoding_ratio(base_from, base_to, chunk_sizes):
         if not isinstance(s, int):
             raise TypeError('chunk sizes must be list of ints')
         '''
-        base_from ** s is the total number of values represented by the input
-        base and chunk size
+        We need to work out how many digits in the output base are needed to
+        represent a number s digits long in the input base.
 
-        base_to logarithm of this number, rounded to ceiling is the minimum
-        number of symbols required in the output ratio to store this number of
-        values (it might be able to store more than needed, but that doesn't
-        matter)
+        The number of values represented by an s digit long number in the input
+        base is `base_from ** s`
+
+        The number of digits in base x needed to represent n values is
+        `ceil(logx(n))`
+
+        Altogether this is `ceil(logx(base_from ** s))`
+
+        This can be simplified using the law `n log(x) = log(x ** n)`
+
+        To become the following:
         '''
-        match = ceil(log(base_from ** s, base_to))
+        match = ceil(s * log(base_from, base_to))
         # the efficiency ratio is input:output
         ratio = (float(s), match)
         # ratio efficiences can be compared by dividing them like fractions
