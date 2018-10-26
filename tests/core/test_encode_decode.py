@@ -9,7 +9,7 @@ import unittest
 from ddt import data, ddt, unpack
 
 from basest.core import decode, encode
-from basest.exceptions import InvalidSymbolTableError
+from basest.exceptions import InvalidInputError, InvalidSymbolTableError
 
 
 base64_alphabet = [
@@ -352,10 +352,10 @@ class TestEncodeDecode(unittest.TestCase):
     ):
         """
         When the decode() function is called with input data that contains
-        symbols which are not found in the input symbol table, ValueError
-        should be raised.
+        symbols which are not found in the input symbol table,
+        InvalidInputError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidInputError):
             decode(
                 4, input_symbol_table,
                 'P',

@@ -2,6 +2,22 @@
 # -*- coding: utf-8 -*-
 
 
+class InvalidSymbolTableError(ValueError):
+    """
+    This exception is raised when the symbol table and/or padding symbol
+    supplied to an encoding/decoding operation are invalid.
+    """
+    pass
+
+
+class InvalidInputError(ValueError):
+    """
+    This exception is raised when an encoding or decoding function receives
+    input data containing symbols which are not in the relevant symbol table.
+    """
+    pass
+
+
 class ImproperUsageError(ValueError):
     """
     This exception is raised when an attempt is made to encode data using a
@@ -9,13 +25,5 @@ class ImproperUsageError(ValueError):
     data is not exactly divisible by the input ratio.
 
     This cannot be allowed because such options would cause data corruption.
-    """
-    pass
-
-
-class InvalidSymbolTableError(ValueError):
-    """
-    This exception is raised when the symbol table and/or padding symbol
-    supplied to an encoding/decoding operation are invalid.
     """
     pass
