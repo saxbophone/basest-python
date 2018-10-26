@@ -9,6 +9,7 @@ import unittest
 from ddt import data, ddt, unpack
 
 from basest.core import decode_raw, encode_raw
+from basest.exceptions import ImproperUsageError
 
 
 @ddt
@@ -80,9 +81,9 @@ class TestEncodeDecodeRaw(unittest.TestCase):
         input ratio. This is because such an action normally can be solved with
         padding, however padding can only be used successfully on the 'smaller'
         side of the transformation, in any other case data corruption occurs.
-        If this is attempted, then ValueError should be raised.
+        If this is attempted, then ImproperUsageError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ImproperUsageError):
             encode_raw(
                 input_base=input_base, output_base=output_base,
                 input_ratio=input_ratio, output_ratio=output_ratio,
