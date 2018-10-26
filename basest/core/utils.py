@@ -21,7 +21,7 @@ def symbols_to_ints(symbols, symbol_table):
     return [symbol_table.index(s) for s in symbols]
 
 
-def symbol_table_is_unique(symbol_table, padding_symbol=None):
+def _symbol_table_is_unique(symbol_table, padding_symbol=None):
     """
     Returns True if the given symbol table and padding symbol are unique,
     otherwise returns False.
@@ -50,7 +50,7 @@ def validate_symbol_tables(symbol_table, padding_symbol, other_symbol_table):
     # if that check passes, validate tables (and padding) for uniqueness
     # the padding symbol is evaluated with the first symbol table
     elif (
-        (not symbol_table_is_unique(symbol_table, padding_symbol)) or
-        (not symbol_table_is_unique(other_symbol_table))
+        (not _symbol_table_is_unique(symbol_table, padding_symbol)) or
+        (not _symbol_table_is_unique(other_symbol_table))
     ):
         raise ValueError('Unique symbol tables required')
