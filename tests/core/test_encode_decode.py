@@ -9,6 +9,7 @@ import unittest
 from ddt import data, ddt, unpack
 
 from basest.core import decode, encode
+from basest.exceptions import InvalidSymbolTableError
 
 
 base64_alphabet = [
@@ -140,9 +141,9 @@ class TestEncodeDecode(unittest.TestCase):
     ):
         """
         When a non-unique input or output symbol table is passed to encode(),
-        ValueError should be raised.
+        InvalidSymbolTableError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidSymbolTableError):
             encode(
                 len(input_symbol_table), input_symbol_table,
                 len(output_symbol_table), output_symbol_table,
@@ -156,9 +157,9 @@ class TestEncodeDecode(unittest.TestCase):
     ):
         """
         When the output symbol table passed to encode() contains the padding
-        symbol, ValueError should be raised.
+        symbol, InvalidSymbolTableError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidSymbolTableError):
             encode(1, ['a'], 1, ['b'], 'b', 1, 1, [])
 
     @data(
@@ -175,9 +176,9 @@ class TestEncodeDecode(unittest.TestCase):
     ):
         """
         When any of the symbol tables or the padding symbol passed to encode()
-        are or contain None, ValueError should be raised.
+        are or contain None, InvalidSymbolTableError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidSymbolTableError):
             encode(
                 len(input_symbol_table), input_symbol_table,
                 len(output_symbol_table), output_symbol_table,
@@ -294,9 +295,9 @@ class TestEncodeDecode(unittest.TestCase):
     ):
         """
         When a non-unique input or output symbol table is passed to decode(),
-        ValueError should be raised.
+        InvalidSymbolTableError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidSymbolTableError):
             decode(
                 len(input_symbol_table), input_symbol_table,
                 padding_symbol,
@@ -310,9 +311,9 @@ class TestEncodeDecode(unittest.TestCase):
     ):
         """
         When the input symbol table passed to decode() contains the padding
-        symbol, ValueError should be raised.
+        symbol, InvalidSymbolTableError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidSymbolTableError):
             decode(1, ['a'], 'a', 1, ['b'], 1, 1, [])
 
     @data(
@@ -329,9 +330,9 @@ class TestEncodeDecode(unittest.TestCase):
     ):
         """
         When any of the symbol tables or the padding symbol passed to decode()
-        are or contain None, ValueError should be raised.
+        are or contain None, InvalidSymbolTableError should be raised.
         """
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidSymbolTableError):
             decode(
                 len(input_symbol_table), input_symbol_table,
                 padding_symbol,

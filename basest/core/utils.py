@@ -4,6 +4,8 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
+from ..exceptions import InvalidSymbolTableError
+
 
 def ints_to_symbols(ints, symbol_table):
     """
@@ -39,12 +41,12 @@ def validate_symbol_tables(symbol_table, padding_symbol, other_symbol_table):
     """
     Validates two symbol tables (the padding symbol being used alongside the
     first one).
-    Raises ValueError if either of the symbol tables (or padding symbol) fail
-    validation.
+    Raises InvalidSymbolTableError if either of the symbol tables (or padding
+    symbol) fail validation.
     """
     # first check that they all do not contain None
     if None in (symbol_table + [padding_symbol] + other_symbol_table):
-        raise ValueError(
+        raise InvalidSymbolTableError(
             'None cannot be used in symbol tables nor for padding'
         )
     # if that check passes, validate tables (and padding) for uniqueness
@@ -53,4 +55,4 @@ def validate_symbol_tables(symbol_table, padding_symbol, other_symbol_table):
         (not _symbol_table_is_unique(symbol_table, padding_symbol)) or
         (not _symbol_table_is_unique(other_symbol_table))
     ):
-        raise ValueError('Unique symbol tables required')
+        raise InvalidSymbolTableError('Unique symbol tables required')
