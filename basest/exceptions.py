@@ -27,3 +27,16 @@ class ImproperUsageError(ValueError):
     This cannot be allowed because such options would cause data corruption.
     """
     pass
+
+
+class PaddingError(ValueError):
+    """
+    This exception is raised when an attempt is made to decode data which is
+    not the correct length (e.g. where the length is not an exact multiple of
+    the input ratio).
+
+    This exception is only valid when performing a decoding operation, as data
+    to be encoded is permitted to be shorter than the input ratio as long as
+    the output base is smaller than the input base.
+    """
+    pass
