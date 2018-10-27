@@ -4,7 +4,7 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
-from ..exceptions import PaddingError
+from ..exceptions import InvalidInputLengthError
 from .encode import encode_raw
 from .utils import ints_to_symbols, symbols_to_ints, validate_symbol_tables
 
@@ -20,7 +20,7 @@ def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     """
     # raise an exception early if padding was truncated
     if len(input_data) % input_ratio != 0:
-        raise PaddingError(
+        raise InvalidInputLengthError(
             'Decoding requires input length to be an exact multiple of the '
             'input ratio, or for padding to be used to ensure this.'
         )

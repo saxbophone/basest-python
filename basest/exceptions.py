@@ -29,7 +29,7 @@ class ImproperUsageError(ValueError):
     pass
 
 
-class PaddingError(ValueError):
+class InvalidInputLengthError(ValueError):
     """
     This exception is raised when an attempt is made to decode data which is
     not the correct length (e.g. where the length is not an exact multiple of

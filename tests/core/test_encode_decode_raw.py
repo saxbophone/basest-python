@@ -9,7 +9,7 @@ import unittest
 from ddt import data, ddt, unpack
 
 from basest.core import decode_raw, encode_raw
-from basest.exceptions import ImproperUsageError, PaddingError
+from basest.exceptions import ImproperUsageError, InvalidInputLengthError
 
 
 @ddt
@@ -152,9 +152,10 @@ class TestEncodeDecodeRaw(unittest.TestCase):
     ):
         """
         When decode_raw() is called with input data which is not of a length
-        exactly divisible by the input ratio, PaddingError should be raised.
+        exactly divisible by the input ratio, InvalidInputLengthError should be
+        raised.
         """
-        with self.assertRaises(PaddingError):
+        with self.assertRaises(InvalidInputLengthError):
             decode_raw(
                 input_base=input_base, output_base=output_base,
                 input_ratio=input_ratio, output_ratio=output_ratio,
