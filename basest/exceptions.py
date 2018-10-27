@@ -2,6 +2,22 @@
 # -*- coding: utf-8 -*-
 
 
+class InvalidSymbolTableError(ValueError):
+    """
+    This exception is raised when the symbol table and/or padding symbol
+    supplied to an encoding/decoding operation are invalid.
+    """
+    pass
+
+
+class InvalidInputError(ValueError):
+    """
+    This exception is raised when an encoding or decoding function receives
+    input data containing symbols which are not in the relevant symbol table.
+    """
+    pass
+
+
 class ImproperUsageError(ValueError):
     """
     This exception is raised when an attempt is made to encode data using a
@@ -13,9 +29,14 @@ class ImproperUsageError(ValueError):
     pass
 
 
-class InvalidSymbolTableError(ValueError):
+class InvalidInputLengthError(ValueError):
     """
-    This exception is raised when the symbol table and/or padding symbol
-    supplied to an encoding/decoding operation are invalid.
+    This exception is raised when an attempt is made to decode data which is
+    not the correct length (e.g. where the length is not an exact multiple of
+    the input ratio).
+
+    This exception is only valid when performing a decoding operation, as data
+    to be encoded is permitted to be shorter than the input ratio as long as
+    the output base is smaller than the input base.
     """
     pass

@@ -4,6 +4,7 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
+from ..exceptions import InvalidInputLengthError
 from .encode import encode_raw
 from .utils import ints_to_symbols, symbols_to_ints, validate_symbol_tables
 
@@ -17,6 +18,12 @@ def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     symbol (so interpretted padding integer for decoding base64 would be 64, as
     base64 input would be in the range 0-63).
     """
+    # raise an exception early if padding was truncated
+    if len(input_data) % input_ratio != 0:
+        raise InvalidInputLengthError(
+            'Decoding requires input length to be an exact multiple of the '
+            'input ratio, or for padding to be used to ensure this.'
+        )
     # create a 'workon' copy of the input data so we don't end up changing it
     input_workon = list(input_data)
     # count number of padding symbols

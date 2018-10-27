@@ -4,7 +4,7 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
-from ..exceptions import InvalidSymbolTableError
+from ..exceptions import InvalidInputError, InvalidSymbolTableError
 
 
 def ints_to_symbols(ints, symbol_table):
@@ -19,8 +19,19 @@ def symbols_to_ints(symbols, symbol_table):
     """
     Given an iterable of symbols a list of symbols to convert them from,
     convert them to an iterable of ints and return this.
+
+    Raises InvalidInputError if a symbol that is not in the symbol table is
+    encountered.
     """
-    return [symbol_table.index(s) for s in symbols]
+    try:
+        return [symbol_table.index(s) for s in symbols]
+    except ValueError:
+        """
+        This error is raised when index() doesn't find the given symbol in the
+        symbol table. We're catching it because we want to raise our own
+        exception class for this instead, InvalidInputError.
+        """
+        raise InvalidInputError('Encountered symbol not found in symbol table')
 
 
 def _symbol_table_is_unique(symbol_table, padding_symbol=None):
