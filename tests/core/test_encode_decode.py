@@ -188,6 +188,29 @@ class TestEncodeDecode(unittest.TestCase):
             )
 
     @data(
+        ([0, 1, 2, 3], [0, 1, 4])
+    )
+    @unpack
+    def test_encode_rejects_symbols_not_found_in_symbol_table(
+        self,
+        input_symbols,
+        input_symbol_table
+    ):
+        """
+        When the encode() function is called with input data that contains
+        symbols which are not found in the input symbol table,
+        InvalidInputError should be raised.
+        """
+        with self.assertRaises(InvalidInputError):
+            encode(
+                4, input_symbol_table,
+                8, list(range(8)),
+                'P',
+                2, 3,
+                input_symbols
+            )
+
+    @data(
         # Base-64, using most common alphabet - no padding
         (
             64, base64_alphabet,
