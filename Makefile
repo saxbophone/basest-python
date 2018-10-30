@@ -25,5 +25,8 @@ cover:
 
 tests: clean lint test cover
 
+stress-test:
+	python stress_test.py
+
 package:
 	python setup.py sdist bdist_wheel
