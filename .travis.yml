@@ -10,3 +10,4 @@ install:
   - make install-deps
 script:
   - make
+  - make stress-test
