@@ -18,11 +18,11 @@ def test_partial_input_with_larger_input_bases():
             # only continue if output base is not larger than input base
             if not (output_base > input_base):
                 # get an encoding ratio to use
-                _, ratio = best_ratio(
+                ratio = best_ratio(
                     input_base,
                     [output_base],
                     range(1, 10 + 1)
-                )
+                )[1]
                 # explore the whole input window
                 for input_window in range(1, ratio[0] + 1):
                     '''
