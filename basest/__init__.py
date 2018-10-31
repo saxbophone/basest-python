@@ -14,3 +14,5 @@ from . import core, encoders, exceptions
 
 
 __all__ = ['core', 'encoders', 'exceptions']
+
+name = 'basest'
