@@ -1,5 +1,16 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016, 2018, Joshua Saxby <joshua.a.saxby@gmail.com>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+from __future__ import (
+    absolute_import, division, print_function, unicode_literals
+)
+
 import os
 
 from pip.req import parse_requirements
@@ -47,11 +58,12 @@ setup(
         'Intended Audience :: Science/Research',
         'Intended Audience :: System Administrators',
         'Intended Audience :: Telecommunications Industry',
-        'License :: Other/Proprietary License',
+        'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Communications',
         'Topic :: Education',
         'Topic :: Internet',
