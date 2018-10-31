@@ -16,16 +16,6 @@ import os
 from setuptools import find_packages, setup
 
 
-def readme(filepath):
-    """
-    Utility function to convert the README file to RST format and return it.
-    """
-    return convert_text(
-        open(os.path.join(os.path.dirname(__file__), filepath)).read(),
-        'rst', format='md'
-    )
-
-
 def parse_requirements(filepath):
     """ load requirements from a pip requirements file """
     lineiter = (line.strip() for line in open(filepath))
@@ -49,7 +39,9 @@ setup(
     description=(
         'Converts symbols from any number base to any other number base'
     ),
-    long_description=open(os.path.join(os.path.dirname(__file__), 'README.md')).read(),
+    long_description=open(
+        os.path.join(os.path.dirname(__file__), 'README.md')
+    ).read(),
     long_description_content_type='text/markdown',
     url='https://github.com/saxbophone/basest-python',
     author='Joshua Saxby',
