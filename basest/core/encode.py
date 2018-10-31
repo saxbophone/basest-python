@@ -1,10 +1,17 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016, 2018, Joshua Saxby <joshua.a.saxby@gmail.com>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
-from .utils import ints_to_symbols, symbols_to_ints
+from ..exceptions import ImproperUsageError
+from .utils import ints_to_symbols, symbols_to_ints, validate_symbol_tables
 
 
 def _nearest_length(input_length, input_ratio):
@@ -34,6 +41,17 @@ def encode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     input_workon = list(input_data)
     # store length of input data for future reference
     input_length = len(input_workon)
+    '''
+    Special validation: if the output base is larger than the input base, then
+    the length of the input data MUST be an exact multiple of the input ratio.
+    Otherwise, the data will be corrupted if we continue, so we will raise
+    ImproperUsageError instead.
+    '''
+    if input_base < output_base and input_length % input_ratio != 0:
+        raise ImproperUsageError(
+            'Input data length must be exact multiple of input ratio when '
+            'output base is larger than input base'
+        )
     # get nearest data length that the input data fits in
     input_nearest_length = _nearest_length(input_length, input_ratio)
     # calculate the amount of padding needed
@@ -85,6 +103,12 @@ def encode(
     Uses standard base64-style padding if needed, using the given padding
     symbol.
     """
+    # validate both symbol tables and the padding symbol before continuing
+    validate_symbol_tables(
+        output_symbol_table,
+        output_padding,
+        input_symbol_table
+    )
     # create workon copy of input data and convert symbols to raw ints
     input_workon = symbols_to_ints(input_data, input_symbol_table)
     # use encode_raw() to encode the data

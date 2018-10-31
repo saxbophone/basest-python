@@ -1,5 +1,11 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016, 2018, Joshua Saxby <joshua.a.saxby@gmail.com>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
@@ -9,6 +15,7 @@ import unittest
 from ddt import data, ddt, unpack
 
 from basest.core import decode, encode
+from basest.exceptions import InvalidInputError, InvalidSymbolTableError
 
 
 base64_alphabet = [
@@ -128,6 +135,88 @@ class TestEncodeDecode(unittest.TestCase):
         self.assertEqual(output_data, expected_output_data)
 
     @data(
+        (list('abcd'), list('ccccc'), '1'),
+        (list('!!!!!'), list('abcdef'), '#')
+    )
+    @unpack
+    def test_encode_rejects_non_unique_symbol_tables(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When a non-unique input or output symbol table is passed to encode(),
+        InvalidSymbolTableError should be raised.
+        """
+        with self.assertRaises(InvalidSymbolTableError):
+            encode(
+                len(input_symbol_table), input_symbol_table,
+                len(output_symbol_table), output_symbol_table,
+                padding_symbol,
+                1, 1,
+                []
+            )
+
+    def test_encode_rejects_output_symbol_table_containing_padding_symbol(
+        self
+    ):
+        """
+        When the output symbol table passed to encode() contains the padding
+        symbol, InvalidSymbolTableError should be raised.
+        """
+        with self.assertRaises(InvalidSymbolTableError):
+            encode(1, ['a'], 1, ['b'], 'b', 1, 1, [])
+
+    @data(
+        (list('abcd'), list('efghijk'), None),
+        (list('1234'), [1, 2, 3, None], '#'),
+        ([None, 2, 3, 4], list('cabuges'), '#')
+    )
+    @unpack
+    def test_encode_rejects_none_used_in_symbol_tables_and_padding(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When any of the symbol tables or the padding symbol passed to encode()
+        are or contain None, InvalidSymbolTableError should be raised.
+        """
+        with self.assertRaises(InvalidSymbolTableError):
+            encode(
+                len(input_symbol_table), input_symbol_table,
+                len(output_symbol_table), output_symbol_table,
+                padding_symbol,
+                1, 1,
+                []
+            )
+
+    @data(
+        ([0, 1, 2, 3], [0, 1, 4])
+    )
+    @unpack
+    def test_encode_rejects_symbols_not_found_in_symbol_table(
+        self,
+        input_symbols,
+        input_symbol_table
+    ):
+        """
+        When the encode() function is called with input data that contains
+        symbols which are not found in the input symbol table,
+        InvalidInputError should be raised.
+        """
+        with self.assertRaises(InvalidInputError):
+            encode(
+                4, input_symbol_table,
+                8, list(range(8)),
+                'P',
+                2, 3,
+                input_symbols
+            )
+
+    @data(
         # Base-64, using most common alphabet - no padding
         (
             64, base64_alphabet,
@@ -221,6 +310,88 @@ class TestEncodeDecode(unittest.TestCase):
         )
 
         self.assertEqual(output_data, expected_output_data)
+
+    @data(
+        (list('abcd'), list('ccccc'), '1'),
+        (list('!!!!!'), list('abcdef'), '#')
+    )
+    @unpack
+    def test_decode_rejects_non_unique_symbol_tables(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When a non-unique input or output symbol table is passed to decode(),
+        InvalidSymbolTableError should be raised.
+        """
+        with self.assertRaises(InvalidSymbolTableError):
+            decode(
+                len(input_symbol_table), input_symbol_table,
+                padding_symbol,
+                len(output_symbol_table), output_symbol_table,
+                1, 1,
+                []
+            )
+
+    def test_decode_rejects_input_symbol_table_containing_padding_symbol(
+        self
+    ):
+        """
+        When the input symbol table passed to decode() contains the padding
+        symbol, InvalidSymbolTableError should be raised.
+        """
+        with self.assertRaises(InvalidSymbolTableError):
+            decode(1, ['a'], 'a', 1, ['b'], 1, 1, [])
+
+    @data(
+        (list('abcd'), list('efghijk'), None),
+        (list('1234'), [1, 2, 3, None], '#'),
+        ([None, 2, 3, 4], list('cabuges'), '#')
+    )
+    @unpack
+    def test_decode_rejects_none_used_in_symbol_tables_and_padding(
+        self,
+        input_symbol_table,
+        output_symbol_table,
+        padding_symbol
+    ):
+        """
+        When any of the symbol tables or the padding symbol passed to decode()
+        are or contain None, InvalidSymbolTableError should be raised.
+        """
+        with self.assertRaises(InvalidSymbolTableError):
+            decode(
+                len(input_symbol_table), input_symbol_table,
+                padding_symbol,
+                len(output_symbol_table), output_symbol_table,
+                1, 1,
+                []
+            )
+
+    @data(
+        ([0, 1, 2, 3], [0, 1, 4])
+    )
+    @unpack
+    def test_decode_rejects_symbols_not_found_in_symbol_table(
+        self,
+        input_symbols,
+        input_symbol_table
+    ):
+        """
+        When the decode() function is called with input data that contains
+        symbols which are not found in the input symbol table,
+        InvalidInputError should be raised.
+        """
+        with self.assertRaises(InvalidInputError):
+            decode(
+                4, input_symbol_table,
+                'P',
+                8, list(range(8)),
+                3, 2,
+                input_symbols
+            )
 
     @data(
         # Base-64, using most common alphabet with no padding needed

@@ -13,9 +13,9 @@ clean:
 	rm -rf basest.egg-info build dist
 
 lint:
-	flake8 basest tests setup.py
+	flake8 basest tests setup.py stress_test.py
 	isort -rc -c basest tests
-	isort -c setup.py
+	isort -c setup.py stress_test.py
 
 test:
 	coverage run --source='basest' tests/__main__.py
@@ -24,6 +24,9 @@ cover:
 	coverage report -m --fail-under=100
 
 tests: clean lint test cover
+
+stress-test:
+	python stress_test.py
 
 package:
 	python setup.py sdist bdist_wheel

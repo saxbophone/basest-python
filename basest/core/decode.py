@@ -1,11 +1,18 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016, 2018, Joshua Saxby <joshua.a.saxby@gmail.com>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
 from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
+from ..exceptions import InvalidInputLengthError
 from .encode import encode_raw
-from .utils import ints_to_symbols, symbols_to_ints
+from .utils import ints_to_symbols, symbols_to_ints, validate_symbol_tables
 
 
 def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
@@ -17,6 +24,12 @@ def decode_raw(input_base, output_base, input_ratio, output_ratio, input_data):
     symbol (so interpretted padding integer for decoding base64 would be 64, as
     base64 input would be in the range 0-63).
     """
+    # raise an exception early if padding was truncated
+    if len(input_data) % input_ratio != 0:
+        raise InvalidInputLengthError(
+            'Decoding requires input length to be an exact multiple of the '
+            'input ratio, or for padding to be used to ensure this.'
+        )
     # create a 'workon' copy of the input data so we don't end up changing it
     input_workon = list(input_data)
     # count number of padding symbols
@@ -54,6 +67,12 @@ def decode(
     Assumes standard base64-style padding using the given input padding symbol,
     but can handle unpadded input just fine.
     """
+    # validate both symbol tables and the padding symbol before continuing
+    validate_symbol_tables(
+        input_symbol_table,
+        input_padding,
+        output_symbol_table
+    )
     # create workon copy of input data and convert symbols to raw ints
     # NOTE: input symbol table here includes the padding character
     input_workon = symbols_to_ints(
