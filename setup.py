@@ -19,7 +19,7 @@ from setuptools import find_packages, setup
 def parse_requirements(filepath):
     """ load requirements from a pip requirements file """
     lineiter = (line.strip() for line in open(filepath))
-    return [line for line in lineiter if line and not line.startswith("#")]
+    return [line for line in lineiter if line and not line.startswith('#')]
 
 
 def retrieve_deps(filepath):
