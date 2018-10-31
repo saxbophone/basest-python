@@ -5,9 +5,6 @@ install-deps:
 	pip install -r python_requirements/base.txt
 	pip install -r python_requirements/test.txt
 
-install-build-deps:
-	pip install -r python_requirements/build.txt
-
 clean:
 	rm -rf basest/*.py[cod] tests/*.py[cod] *.py[cod] *__pycache__*
 	rm -rf basest.egg-info build dist
@@ -30,3 +27,6 @@ stress-test:
 
 package:
 	python setup.py sdist bdist_wheel
+
+release: package
+	twine upload dist/*
