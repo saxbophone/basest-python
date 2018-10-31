@@ -73,7 +73,6 @@ setup(
     install_requires=parse_requirements('python_requirements/base.txt'),
     extras_require={
         'test': parse_requirements('python_requirements/test.txt'),
-        'build': parse_requirements('python_requirements/build.txt'),
     },
     package_data={
         '': ['README.md', 'LICENSE'],
