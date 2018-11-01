@@ -13,6 +13,7 @@ env2/
 build/
 develop-eggs/
 dist/
+MANIFEST.in
 downloads/
 eggs/
 .eggs/

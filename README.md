@@ -1,5 +1,5 @@
 # basest-python
-Converts symbols from any number base to any other number base, in Python
+Arbitrary base binary-to-text encoder (any base to any base), in Python.
 
 ## What?
 In short, **basest** is *based on* (pun *definitely* intended :wink:) the concept of binary-to-text conversion, that is where binary or 8-bit data is converted or serialised into a text-based representation format that can be safely passed through a medium that would otherwise destroy or corrupt the meaning of the binary data.
