@@ -26,7 +26,7 @@ def parse_requirements(filepath):
 
 setup(
     name='basest',
-    version='0.7.2.dev1',
+    version='0.7.2',
     description=(
         'Arbitrary base binary-to-text encoder (any base to any base)'
     ),
