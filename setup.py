@@ -17,27 +17,18 @@ from setuptools import find_packages, setup
 
 
 def parse_requirements(filepath):
-    """ load requirements from a pip requirements file """
-    lineiter = (line.strip() for line in open(filepath))
-    return [line for line in lineiter if line and not line.startswith('#')]
-
-
-def retrieve_deps(filepath):
     """
-    Given a file path that points to a requirements file that pip can
-    understand, parse it using pip's parser and return the requirements it
-    contains as a list.
+    Load requirements from a pip requirements file
     """
-    return [
-        str(dep.req) for dep in parse_requirements(filepath, session=False)
-    ]
+    lines = (line.strip() for line in open(filepath))
+    return [line for line in lines if line and not line.startswith('#')]
 
 
 setup(
     name='basest',
-    version='0.7.1',
+    version='0.7.2',
     description=(
-        'Converts symbols from any number base to any other number base'
+        'Arbitrary base binary-to-text encoder (any base to any base)'
     ),
     long_description=open(
         os.path.join(os.path.dirname(__file__), 'README.md')
