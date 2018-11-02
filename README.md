@@ -19,7 +19,9 @@ So, I hope you find this library fun, useful or both!
 ## Installation
 
 #### Python Versions Supported
-This library is designed to work with the following **CPython** versions: **2.7.x**, **3.3.x or greater**.
+This library is designed to work with **Python 2.7** and **Python 3.3 _or greater_**.
+
+It is tested against Python **2.7**, **3.5**, **3.6** and **PyPy 3.5**.
 
 > :bulb: **Help Wanted**
 >
