@@ -27,9 +27,7 @@ def parse_requirements(filepath):
 setup(
     name='basest',
     version='0.7.3.dev1',
-    description=(
-        'Arbitrary base binary-to-text encoder (any base to any base)'
-    ),
+    description='Arbitrary base binary-to-text encoder (any base to any base)',
     long_description=open(
         os.path.join(os.path.dirname(__file__), 'README.md')
     ).read(),
@@ -58,11 +56,9 @@ setup(
         'Topic :: Utilities',
     ],
     keywords='number base encoder decoder conversion encoding decoding',
-    packages=find_packages(),
-    install_requires=parse_requirements('python_requirements/base.txt'),
-    extras_require={
-        'test': parse_requirements('python_requirements/test.txt'),
-    },
+    packages=find_packages(exclude=['tests']),
+    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*',
+    install_requires=[],
     package_data={
         '': ['README.md', 'LICENSE'],
     },

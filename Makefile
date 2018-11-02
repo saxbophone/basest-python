@@ -2,7 +2,6 @@
 .PHONY: install-deps clean lint test cover tests
 
 install-deps:
-	pip install -r python_requirements/base.txt
 	pip install -r python_requirements/test.txt
 
 clean:
