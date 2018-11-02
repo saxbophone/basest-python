@@ -13,6 +13,10 @@ lint:
 	isort -rc -c basest tests
 	isort -c setup.py stress_test.py
 
+fix-lint:
+	isort -rc basest tests
+	isort setup.py stress_test.py
+
 test:
 	coverage run --source='basest' tests/__main__.py
 
