@@ -7,9 +7,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
-from __future__ import (
-    absolute_import, division, print_function, unicode_literals
-)
+from __future__ import absolute_import, division, print_function
 
 import os
 
@@ -26,10 +24,8 @@ def parse_requirements(filepath):
 
 setup(
     name='basest',
-    version='0.7.2',
-    description=(
-        'Arbitrary base binary-to-text encoder (any base to any base)'
-    ),
+    version='0.7.3',
+    description='Arbitrary base binary-to-text encoder (any base to any base)',
     long_description=open(
         os.path.join(os.path.dirname(__file__), 'README.md')
     ).read(),
@@ -46,9 +42,11 @@ setup(
         'Intended Audience :: System Administrators',
         'Intended Audience :: Telecommunications Industry',
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Topic :: Communications',
@@ -60,11 +58,9 @@ setup(
         'Topic :: Utilities',
     ],
     keywords='number base encoder decoder conversion encoding decoding',
-    packages=find_packages(),
-    install_requires=parse_requirements('python_requirements/base.txt'),
-    extras_require={
-        'test': parse_requirements('python_requirements/test.txt'),
-    },
+    packages=find_packages(exclude=['tests']),
+    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*',
+    install_requires=[],
     package_data={
         '': ['README.md', 'LICENSE'],
     },
