@@ -33,8 +33,8 @@ It is tested against Python **2.7**, **3.5**, **3.6** and **PyPy 3.5**.
 
 `pip install basest`
 
-#### Install from git repository (bleeding edge copy from master branch)
-`pip install git+git://github.com/saxbophone/basest-python`
+#### Install from git repository (bleeding edge copy from develop branch)
+`pip install git+git://github.com/saxbophone/basest-python@develop`
 
 ## Usage
 Here is a short overview of the interfaces defined in this library, where to import them from and how to use them.
