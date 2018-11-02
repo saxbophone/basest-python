@@ -30,11 +30,10 @@ It is tested against Python **2.7**, **3.5**, **3.6** and **PyPy 3.5**.
 > [Open an issue](https://github.com/saxbophone/basest-python/issues) if you are interested.
 
 #### Install from PyPi (preferred)
-> **Note:** Package is currently not hosted on PyPi, but will be in the future.
 
 `pip install basest`
 
-#### Install from git repository (at master branch)
+#### Install from git repository (bleeding edge copy from master branch)
 `pip install git+git://github.com/saxbophone/basest-python`
 
 ## Usage
