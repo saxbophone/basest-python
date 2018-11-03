@@ -22,7 +22,7 @@ fix-lint:
 
 .PHONY: test
 test:
-	coverage run --source='basest' tests/__main__.py
+	coverage run --source='basest' -m py.test
 
 .PHONY: cover
 cover:
