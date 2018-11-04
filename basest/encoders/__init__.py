@@ -8,7 +8,17 @@
 #
 from __future__ import absolute_import, division, print_function
 
-from .encoder import Encoder
+from .encoders import (
+    Encoder, EncoderTemplate, MappedStreamingEncoder, RawEncoder,
+    RawStreamingEncoder, TypedEncoder
+)
 
 
-__all__ = ['Encoder']
+__all__ = [
+    'Encoder',
+    'EncoderTemplate',
+    'MappedStreamingEncoder',
+    'RawEncoder',
+    'RawStreamingEncoder',
+    'TypedEncoder',
+]
