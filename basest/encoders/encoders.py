@@ -15,17 +15,17 @@ class RawStreamingEncoder(object):
     """
     @classmethod
     def encode(cls, data):
-        # NOTE: should be implemented in real life!
-        # this method will be a generator which implements most of the
-        # encoding work, yielding raw ints in the output base
-        raise NotImplementedError()
+        print('RawStreamingEncoder.encode')
+        # dummy implementation just yields the same input data
+        for datum in data:
+            yield datum
 
     @classmethod
     def decode(cls, data):
-        # NOTE: should be implemented in real life!
-        # this method will be a generator which implements most of the
-        # decoding work, yielding raw ints in the input base
-        raise NotImplementedError()
+        print('RawStreamingEncoder.decode')
+        # dummy implementation just yields the same input data
+        for datum in data:
+            yield datum
 
 
 class MappedStreamingEncoder(RawStreamingEncoder):
@@ -34,15 +34,27 @@ class MappedStreamingEncoder(RawStreamingEncoder):
     """
     @classmethod
     def encode(cls, data):
+        print('MappedStreamingEncoder.encode')
         # wrap generator with another generator, one which maps the symbols
         for symbol in super(MappedStreamingEncoder, cls).encode(data):
-            yield super(MappedStreamingEncoder, cls).map_input(symbol)
+            yield cls.map_input(symbol)
 
     @classmethod
     def decode(cls, data):
+        print('MappedStreamingEncoder.decode')
         # wrap generator with another generator, one which maps the symbols
         for symbol in super(MappedStreamingEncoder, cls).decode(data):
-            yield super(MappedStreamingEncoder, cls).map_output(symbol)
+            yield cls.map_output(symbol)
+
+    @classmethod
+    def map_input(cls, symbol):
+        # dummy implementation which doesn't map anything at all
+        return symbol
+
+    @classmethod
+    def map_output(cls, symbol):
+        # dummy implementation which doesn't map anything at all
+        return symbol
 
 
 class RawEncoder(RawStreamingEncoder):
@@ -51,16 +63,18 @@ class RawEncoder(RawStreamingEncoder):
     """
     @classmethod
     def encode(cls, data):
+        print('RawEncoder.encode')
         # convert generator into list
-        return list(super(Encoder, cls).encode(data))
+        return list(super(RawEncoder, cls).encode(data))
 
     @classmethod
     def decode(cls, data):
+        print('RawEncoder.decode')
         # convert generator into list
-        return list(super(Encoder, cls).decode(data))
+        return list(super(RawEncoder, cls).decode(data))
 
 
-class Encoder(MappedStreamingEncoder, RawEncoder):
+class Encoder(RawEncoder, MappedStreamingEncoder):
     """
     Base class for encoders which return a list of symbols
     """
@@ -74,11 +88,23 @@ class TypedEncoder(Encoder):
     """
     @classmethod
     def encode(cls, data):
+        print('TypedEncoder.encode')
         return super(TypedEncoder, cls).coerce_input(data)
 
     @classmethod
     def decode(cls, data):
+        print('TypedEncoder.decode')
         return super(TypedEncoder, cls).coerce_output(data)
+
+    @classmethod
+    def coerce_input(cls, data):
+        # dummy implementation that changes nothing
+        return data
+
+    @classmethod
+    def coerce_output(cls, data):
+        # dummy implementation that changes nothing
+        return data
 
 
 class EncoderTemplate(object):
