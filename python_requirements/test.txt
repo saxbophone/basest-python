@@ -1,6 +1,6 @@
 # These are the test dependencies for this package
 flake8>=3
-flake8-aaa>=0.4.0
+flake8-aaa>=0.6.1
 isort>=4.2,<4.3
 ddt>=1.1,<1.2
 coverage>=4.1,<4.2
